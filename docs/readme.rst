@@ -47,6 +47,7 @@ intents_ and slot_ the action_ will use, with a format as follow:
 3. A cli match the concordence of both and repport inconsistencies.
 
 ::
+
    snips-app spec check --assistant_dir ... --actions_dir ...
 
 (I invite you to alias snips-toolbelt to st)
@@ -54,6 +55,7 @@ intents_ and slot_ the action_ will use, with a format as follow:
 A typical report of the CLI looks like this:
 
 ::
+
    TODO
 
 # The Spec Middleware
@@ -67,6 +69,7 @@ and actionto communicate but both beeing open 3rd party. How is that even possib
 :stars: Link to the rescue
 
 ::
+
    snips-toolbelt spec link --assistant_spec_path ... --action_spec_path ...
 
 What it does ?
