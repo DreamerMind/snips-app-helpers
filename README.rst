@@ -2,6 +2,15 @@
 Overview
 ========
 
+This is not an official Snips product !
+
+Handful of cli and other tools to develop with confidence Snips services.
+
+- Adding Spec and contract between snips app and console.
+
+
+* Free software: MIT license
+
 .. start-badges
 
 .. list-table::
@@ -58,9 +67,7 @@ Overview
 
 .. end-badges
 
-Handful of cli and other tools to develop with confidence Snips services
 
-* Free software: MIT license
 
 Installation
 ============
