@@ -2,4 +2,4 @@
 Authors
 =======
 
-* Dreamermind - https://snips.ai
+* Dreamermind - https://github.com/DreamerMind/
