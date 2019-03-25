@@ -53,7 +53,8 @@ A typical report of the CLI looks like this:
 
    TODO
 
-# The Spec Middleware
+The Spec Middleware
+-------------------
 
 Once you have the specs defined as bellow you can use it to various purposes.
 
@@ -67,8 +68,7 @@ and actionto communicate but both beeing open 3rd party. How is that even possib
 
    snips-toolbelt spec link --assistant_spec_path ... --action_spec_path ...
 
-What it does ?
---------------
+**What it does ?**
 
 It compare both spec and try hard to map the existing action spec to the
 pointed assistant spec, it finally generate automatically a mapping spec, looking
