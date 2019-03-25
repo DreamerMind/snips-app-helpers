@@ -58,7 +58,7 @@ What ?
 
 Cli and other tools to develop with confidence Snips apps.
 
-- Adding Spec and contract between snips app and console.
+- Adding contract Spec between snips app and console assistant.
 
 .. start-badges
 
