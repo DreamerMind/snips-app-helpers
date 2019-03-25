@@ -104,7 +104,7 @@ analysis will be kept coherent.
 Action Unit Testing
 ===================
 
-Testing a action_
+Testing an action_
  is hard, due to the very nature of it there is a lot of interaction
 from ASR to NLU to your final intent action.
 

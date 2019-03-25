@@ -21,10 +21,6 @@ Snips App Helper
     :alt: Travis-CI Build Status
     :target: https://travis-ci.org/dreamermind/snips-app-helpers
 
-.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/dreamermind/snips-app-helpers?branch=master&svg=true
-    :alt: AppVeyor Build Status
-    :target: https://ci.appveyor.com/project/dreamermind/snips-app-helpers
-
 .. |requires| image:: https://requires.io/github/dreamermind/snips-app-helpers/requirements.svg?branch=master
     :alt: Requirements Status
     :target: https://requires.io/github/dreamermind/snips-app-helpers/requirements/?branch=master
