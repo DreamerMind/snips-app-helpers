@@ -5,8 +5,7 @@ Snips App Helpers
 ``This is not an official Snips product !``
 
 Snips App Helpers help you to declare, test, and check your snips application.
-
- - By Adding contract Spec between Snips App and Console Assistant and a cli tool to generate compliance report.
+- By Adding contract Spec between Snips App and Console Assistant and a cli tool to generate compliance report.
 
 Installation
 ============
