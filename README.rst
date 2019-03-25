@@ -2,11 +2,11 @@
 Snips App Helpers
 =================
 
+``This is not an official Snips product !``
+
 Snips App Helpers help you to declare, test, and check your snips application.
 
  - By Adding contract Spec between Snips App and Console Assistant and a cli tool to generate compliance report.
-
-``This is not an official Snips product !``
 
 .. list-table::
     :stub-columns: 1
@@ -55,11 +55,6 @@ Snips App Helpers help you to declare, test, and check your snips application.
     :target: https://pypi.org/project/snips-app-helpers
 
 
-.. end-badges
-
-.. start-badges
-
-
 Installation
 ============
 
@@ -70,12 +65,16 @@ Installation
 Documentation
 =============
 
-
 https://snips-app-helpers.readthedocs.io/
 
 
 Development
 ===========
+
+.. end-badges
+
+.. start-badges
+
 
 To run the all tests run::
 
