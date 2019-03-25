@@ -8,8 +8,7 @@ Snips App Helper
     * - docs
       - |docs|
     * - tests
-      - | |travis| |appveyor| |requires|
-        | |codecov|
+      - | |travis| |codecov| |requires|
     * - package
       - | |version| |wheel| |supported-versions| |supported-implementations|
         | |commits-since|
