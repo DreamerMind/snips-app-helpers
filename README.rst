@@ -2,6 +2,8 @@
 Snips App Helper
 ================
 
+``This is not an official Snips product !``
+
 .. list-table::
     :stub-columns: 1
 
@@ -51,10 +53,10 @@ Snips App Helper
 
 .. end-badges
 
+What ?
+======
 
-``This is not an official Snips product !``
-
-Handful of cli and other tools to develop with confidence Snips services.
+Cli and other tools to develop with confidence Snips apps.
 
 - Adding Spec and contract between snips app and console.
 
