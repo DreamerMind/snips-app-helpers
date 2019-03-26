@@ -18,7 +18,7 @@ import pathlib
 
 import click
 
-from .specs import AssistantSpec
+from . import specs
 
 
 @click.group()
@@ -52,4 +52,12 @@ def check(assistant_json, app_dir):
     click.echo(('Analysing spec for:\n'
                 '\tassistant: %s\n'
                 '\tapp dir: %s') % (str(assistant_json), app_dir))
-    AssistantSpec.load(assistant_json).check(app_dir)
+    report_messages = specs.AssistantSpec.load(assistant_json).check(app_dir)
+    SpecReportCli(report_messages).show()
+
+class SpecReportCli(specs.Report):
+
+    def show(self):
+        for message in self.msgs:
+            if isinstance(message, specs.Warning):
+                click.echo(click.style(str(message), fg='yellow'))
