@@ -1,0 +1,655 @@
+{
+  "id" : "proj_K70WzPbo02b",
+  "name" : "EN/ Home spec tests",
+  "intents" : [ {
+    "id" : "rgholmes:getCurrentTime",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "getCurrentTime",
+    "enabledByDefault" : true
+  }, {
+    "id" : "rgholmes:getCurrentDay",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "getCurrentDay",
+    "enabledByDefault" : true
+  }, {
+    "id" : "rgholmes:getRandomTime",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "getRandomTime",
+    "enabledByDefault" : true
+  }, {
+    "id" : "rgholmes:getRandomDate",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "getRandomDate",
+    "enabledByDefault" : true
+  }, {
+    "id" : "rgholmes:getCurrentDate",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "getCurrentDate",
+    "enabledByDefault" : true
+  }, {
+    "id" : "playPlaylist",
+    "type" : "registry",
+    "version" : "4.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "playlist_name",
+      "id" : "slot_HkUkNyL6Z",
+      "entityId" : "entity_6kW32M9Elxo",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Name of the playlist the user would like to listen to."
+    }, {
+      "name" : "playlist_lecture_mode",
+      "id" : "slot_HyVQVyU6Z",
+      "entityId" : "entity_GAP8VNQorD9",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Lecture mode for the playback."
+    } ],
+    "name" : "playPlaylist",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "playAlbum",
+    "type" : "registry",
+    "version" : "8.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "album_name",
+      "id" : "slot_HJYAS1Ia-",
+      "entityId" : "entity_PQPWANn1Z7V",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Name of the album the user would like to listen to."
+    }, {
+      "name" : "album_lecture_mode",
+      "id" : "slot_HkHtIyIaZ",
+      "entityId" : "entity_GAP8VNQorD9",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Lecture mode for the playback."
+    } ],
+    "name" : "playAlbum",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "speakerInterrupt",
+    "type" : "registry",
+    "version" : "6.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "speakerInterrupt",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "nextSong",
+    "type" : "registry",
+    "version" : "3.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "nextSong",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "volumeDown",
+    "type" : "registry",
+    "version" : "11.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "volume_lower",
+      "id" : "slot_H1Bum1UaW",
+      "entityId" : "entity_ZaZ2xw8K4nVn",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Quantity of levels/steps the user would like to decrease the volume by."
+    } ],
+    "name" : "volumeDown",
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "resumeMusic",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "resumeMusic",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "previousSong",
+    "type" : "registry",
+    "version" : "3.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "previousSong",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "radioOn",
+    "type" : "registry",
+    "version" : "11.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "radio_name",
+      "id" : "slot_B1ZfWyUTW",
+      "entityId" : "entity_7zkE5ay7d6z",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Name of the radio station the user would like to listen to."
+    } ],
+    "name" : "radioOn",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "getInfos",
+    "type" : "registry",
+    "version" : "5.1.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "music_item",
+      "id" : "slot_r1GFv1LTb",
+      "entityId" : "entity_qZgDO85vPqe",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Type of music item the user would like to get details about."
+    } ],
+    "name" : "getInfos",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "playArtist",
+    "type" : "registry",
+    "version" : "13.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "artist_name",
+      "id" : "slot_ryU35kIT-",
+      "entityId" : "entity_MEPOAO17wmD",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Name of the artist the user would like to listen to."
+    } ],
+    "name" : "playArtist",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "volumeUp",
+    "type" : "registry",
+    "version" : "10.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "volume_higher",
+      "id" : "slot_SJo6MJ8pb",
+      "entityId" : "entity_ZaZ2xw8K4nVn",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Quantity of levels/steps the volume should be increased by."
+    } ],
+    "name" : "volumeUp",
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "addSong",
+    "type" : "registry",
+    "version" : "8.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "addSong",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "playSong",
+    "type" : "registry",
+    "version" : "8.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "song_name",
+      "id" : "slot_ryKWDkI6b",
+      "entityId" : "entity_04n7BVwOGB8",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Name of the song the user would like to listen to."
+    } ],
+    "name" : "playSong",
+    "confirmationRequired" : false,
+    "confirmationQuestion" : "",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:weightConverter",
+    "type" : "registry",
+    "version" : "3.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "amount",
+      "id" : "slot_imported_r1qTbcOm7",
+      "entityId" : "snips/number",
+      "missingQuestion" : "what is the weight amount",
+      "required" : true
+    }, {
+      "name" : "weightFunction1",
+      "id" : "slot_imported_HJg9pbcdm7",
+      "entityId" : "entity_p9PlrnV1VDXA",
+      "missingQuestion" : "from what weight unit",
+      "required" : true
+    }, {
+      "name" : "weightFunction2",
+      "id" : "slot_imported_Hk-cp-5O7m",
+      "entityId" : "entity_p9PlrnV1VDXA",
+      "missingQuestion" : "to what weight unit",
+      "required" : true
+    } ],
+    "name" : "weightConverter",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:lengthConverter",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "amount",
+      "id" : "slot_imported_H1oSAS_mX",
+      "entityId" : "snips/number",
+      "missingQuestion" : "what length was that",
+      "required" : true
+    }, {
+      "name" : "lengthFunction1",
+      "id" : "slot_imported_H1xjHAB_m7",
+      "entityId" : "entity_Q4z9yZbrZG24",
+      "missingQuestion" : "from what length unit",
+      "required" : true
+    }, {
+      "name" : "lengthFunction2",
+      "id" : "slot_imported_SkbjBArd7m",
+      "entityId" : "entity_Q4z9yZbrZG24",
+      "missingQuestion" : "to what length unit",
+      "required" : true
+    } ],
+    "name" : "lengthConverter",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:currencyConverter",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "currencyTo",
+      "id" : "soGwoHJXd",
+      "entityId" : "entity_y8M4xYOmnzM",
+      "missingQuestion" : "to which currency type",
+      "required" : false
+    }, {
+      "name" : "currencyFrom",
+      "id" : "psJtxSbAx",
+      "entityId" : "entity_y8M4xYOmnzM",
+      "missingQuestion" : "from which currency type",
+      "required" : false
+    }, {
+      "name" : "amount",
+      "id" : "OQaqy_Qn0B",
+      "entityId" : "snips/amountOfMoney",
+      "missingQuestion" : "what is the amount of money to convert",
+      "required" : true
+    } ],
+    "name" : "currencyConverter",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:mathsQuestion",
+    "type" : "registry",
+    "version" : "14.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "number",
+      "id" : "slot_imported_BklD1IDmX",
+      "entityId" : "snips/number",
+      "missingQuestion" : "from what number",
+      "required" : false
+    }, {
+      "name" : "function",
+      "id" : "slot_imported_ry-gDJLPmX",
+      "entityId" : "entity_b3xl5QAGeVEN",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "mathsQuestion",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:areaFunction",
+    "type" : "registry",
+    "version" : "5.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "amount",
+      "id" : "slot_imported_BJUBsItmQ",
+      "entityId" : "snips/number",
+      "missingQuestion" : "what is the area amount",
+      "required" : true
+    }, {
+      "name" : "areaFunction1",
+      "id" : "slot_imported_HkxISsUtQQ",
+      "entityId" : "entity_yK2ez6ll42GM",
+      "missingQuestion" : "from what area unit",
+      "required" : true
+    }, {
+      "name" : "areaFunction2",
+      "id" : "slot_imported_Hy-IHi8Kmm",
+      "entityId" : "entity_yK2ez6ll42GM",
+      "missingQuestion" : "to what area unit",
+      "required" : true
+    } ],
+    "name" : "areaFunction",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:temperatureConverter",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "amount",
+      "id" : "slot_imported_Sk3v9Nd77",
+      "entityId" : "snips/number",
+      "missingQuestion" : "convert what temperature",
+      "required" : true
+    }, {
+      "name" : "tempFunction1",
+      "id" : "slot_imported_BJx2vcN_7X",
+      "entityId" : "entity_E6eEDnkapn72",
+      "missingQuestion" : "from what temperature unit",
+      "required" : true
+    }, {
+      "name" : "tempFunction2",
+      "id" : "slot_imported_r1b2P9VuXQ",
+      "entityId" : "entity_E6eEDnkapn72",
+      "missingQuestion" : "to what temperature unit",
+      "required" : true
+    } ],
+    "name" : "temperatureConverter",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:volumeConverter",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "amount",
+      "id" : "slot_imported_ryiVwtumX",
+      "entityId" : "snips/number",
+      "missingQuestion" : "what volume amount",
+      "required" : true
+    }, {
+      "name" : "volumeFunction1",
+      "id" : "slot_imported_BJxiEwFdmX",
+      "entityId" : "entity_W5xy53bO3qzp",
+      "missingQuestion" : "from what volume unit",
+      "required" : true
+    }, {
+      "name" : "volumeFunction2",
+      "id" : "slot_imported_BJ-iEPKum7",
+      "entityId" : "entity_W5xy53bO3qzp",
+      "missingQuestion" : "to what volume unit",
+      "required" : true
+    } ],
+    "name" : "volumeConverter",
+    "enabledByDefault" : true
+  }, {
+    "id" : "ozie:speedConverter",
+    "type" : "registry",
+    "version" : "3.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "amount",
+      "id" : "slot_imported_rknx0Idmm",
+      "entityId" : "snips/number",
+      "missingQuestion" : "what is the speed",
+      "required" : true
+    }, {
+      "name" : "speedFunction1",
+      "id" : "slot_imported_SJx2xA8d7m",
+      "entityId" : "entity_Yaxvl7ANdppb",
+      "missingQuestion" : "from which speed unit of time",
+      "required" : true
+    }, {
+      "name" : "speedFunction2",
+      "id" : "slot_imported_rJZnxA8um7",
+      "entityId" : "entity_Yaxvl7ANdppb",
+      "missingQuestion" : "to which speed unit of time",
+      "required" : true
+    }, {
+      "name" : "speedUnitTo",
+      "id" : "slot_imported_rJM3gRU_Q7",
+      "entityId" : "entity_D6QZ5zBQWYB2",
+      "missingQuestion" : "convert to which unit of speed distance",
+      "required" : true
+    }, {
+      "name" : "speedUnitFrom",
+      "id" : "rkQvpDd7X",
+      "entityId" : "entity_D6QZ5zBQWYB2",
+      "missingQuestion" : "from which unit of speed distance",
+      "required" : true
+    } ],
+    "name" : "speedConverter",
+    "enabledByDefault" : true
+  }, {
+    "id" : "Likhitha:timeNow",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "timeNow",
+    "enabledByDefault" : true
+  }, {
+    "id" : "Likhitha:date",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "date",
+    "enabledByDefault" : true
+  }, {
+    "id" : "Likhitha:day",
+    "type" : "registry",
+    "version" : "1.0.0",
+    "language" : "en",
+    "slots" : [ ],
+    "name" : "day",
+    "enabledByDefault" : true
+  }, {
+    "id" : "turnOn",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "house_room",
+      "id" : "6oujqB8ti",
+      "entityId" : "entity_VXgBapAmOmVr",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "turnOn",
+    "enabledByDefault" : true
+  }, {
+    "id" : "shiftDown",
+    "type" : "registry",
+    "version" : "4.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "house_room",
+      "id" : "3o2Ch06qT",
+      "entityId" : "entity_YaYAZxE9M5eo",
+      "missingQuestion" : "",
+      "required" : false
+    }, {
+      "name" : "percent",
+      "id" : "0sdYmudK7",
+      "entityId" : "snips/percentage",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "shiftDown",
+    "enabledByDefault" : true
+  }, {
+    "id" : "turnOff",
+    "type" : "registry",
+    "version" : "3.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "house_room",
+      "id" : "slot_imported_SyQ0gSnuM",
+      "entityId" : "entity_YaYAZxE9M5eo",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "turnOff",
+    "enabledByDefault" : true
+  }, {
+    "id" : "setScene",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "scene",
+      "id" : "4pmH4mCqT",
+      "entityId" : "entity_593xEK74Np6k",
+      "missingQuestion" : "Please tell me what scene do you prefer?",
+      "required" : true
+    }, {
+      "name" : "house_room",
+      "id" : "rkV3W_Bj1",
+      "entityId" : "entity_YaYAZxE9M5eo",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "setScene",
+    "enabledByDefault" : true
+  }, {
+    "id" : "setColor",
+    "type" : "registry",
+    "version" : "1.2.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "color",
+      "id" : "JKIESOKfy",
+      "entityId" : "entity_o6WYpPvAQ1vn",
+      "missingQuestion" : "Which color do you want?",
+      "required" : true,
+      "description" : "the slot to describe the color"
+    }, {
+      "name" : "house_room",
+      "id" : "oHkW3fvya",
+      "entityId" : "entity_YaYAZxE9M5eo",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "the slot to describe the place"
+    } ],
+    "name" : "setColor",
+    "enabledByDefault" : true
+  }, {
+    "id" : "setBrightness",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "percent",
+      "id" : "A3P67Rdcm",
+      "entityId" : "snips/percentage",
+      "missingQuestion" : "Please tell me how bright do you want?",
+      "required" : false
+    }, {
+      "name" : "house_room",
+      "id" : "IzZCc6hKZ",
+      "entityId" : "entity_YaYAZxE9M5eo",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "setBrightness",
+    "enabledByDefault" : true
+  }, {
+    "id" : "shiftUp",
+    "type" : "registry",
+    "version" : "3.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "house_room",
+      "id" : "2H-K7n3Jd",
+      "entityId" : "entity_YaYAZxE9M5eo",
+      "missingQuestion" : "",
+      "required" : false
+    }, {
+      "name" : "percent",
+      "id" : "VhcuKBcgg",
+      "entityId" : "snips/percentage",
+      "missingQuestion" : "",
+      "required" : false
+    } ],
+    "name" : "shiftUp",
+    "enabledByDefault" : true
+  }, {
+    "id" : "SirBuildsALot7:bye",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "bye",
+      "id" : "BJhInnWOf",
+      "entityId" : "entity_Eknp6qM6bk0",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "bye"
+    } ],
+    "name" : "bye",
+    "enabledByDefault" : true
+  }, {
+    "id" : "SirBuildsALot7:hello",
+    "type" : "registry",
+    "version" : "2.0.0",
+    "language" : "en",
+    "slots" : [ {
+      "name" : "hello",
+      "id" : "BkFd_3WdM",
+      "entityId" : "entity_bDbwyAx11om",
+      "missingQuestion" : "",
+      "required" : false,
+      "description" : "Says hello"
+    } ],
+    "name" : "hello",
+    "enabledByDefault" : true
+  } ],
+  "createdAt" : "2019-03-26T08:16:54.240Z",
+  "language" : "en",
+  "version" : {
+    "nluModel" : "0.19.0"
+  },
+  "platform" : {
+    "type" : "raspberrypi"
+  },
+  "asr" : {
+    "type" : "snips"
+  },
+  "analyticsEnabled" : true,
+  "heartbeatEnabled" : true,
+  "hotword" : "hey_snips"
+}

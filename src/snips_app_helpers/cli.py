@@ -14,10 +14,42 @@ Why does this file exist, and why not put this in __main__?
 
   Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
 """
+import pathlib
+
 import click
 
+from .specs import AssistantSpec
 
-@click.command()
-@click.argument('names', nargs=-1)
-def main(names):
-    click.echo(repr(names))
+
+@click.group()
+@click.option('--debug/--no-debug', default=False)
+def main(debug):
+    if debug:
+        click.echo('Debug mode is %s' % ('on' if debug else 'off'))
+
+
+@main.group()
+def spec():
+    pass
+
+
+@spec.command()
+@click.option('-aj', '--assistant_json', required=True, type=pathlib.Path)
+@click.option('-ad',
+              '--app_dir',
+              default=pathlib.Path('/var/lib/snips/skills'),
+              type=pathlib.Path)
+def check(assistant_json, app_dir):
+    if not assistant_json.isfile():
+        click.echo(click.style('"%s" does not seems to be an existing file'
+                               % str(assistant_json), fg='red'))
+        return
+
+    if not app_dir.exists():
+        click.echo(click.style('"%s" does not seems to be an existing folder'
+                               % str(app_dir), fg='red'))
+        return
+    click.echo(('Analysing spec for with:\n'
+                'assistant: %s\n'
+                'app dir: %s') % (str(assistant_json), app_dir))
+    AssistantSpec.load(assistant_json).check(app_dir)
