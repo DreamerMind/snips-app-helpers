@@ -21,9 +21,9 @@ class AssistantSpec(object):
         Return:
             AssistantSpec
         """
-        pass
+        return AssistantSpec()
 
-    def compare_to_app_specs(app_spec_list):
+    def compare_to_app_specs(self, app_spec_list):
         pass
 
     def check(self, skill_dir):

@@ -40,7 +40,7 @@ def spec():
               default=pathlib.Path('/var/lib/snips/skills'),
               type=pathlib.Path)
 def check(assistant_json, app_dir):
-    if not assistant_json.isfile():
+    if not assistant_json.exists():
         click.echo(click.style('"%s" does not seems to be an existing file'
                                % str(assistant_json), fg='red'))
         return
@@ -49,7 +49,7 @@ def check(assistant_json, app_dir):
         click.echo(click.style('"%s" does not seems to be an existing folder'
                                % str(app_dir), fg='red'))
         return
-    click.echo(('Analysing spec for with:\n'
-                'assistant: %s\n'
-                'app dir: %s') % (str(assistant_json), app_dir))
+    click.echo(('Analysing spec for:\n'
+                '\tassistant: %s\n'
+                '\tapp dir: %s') % (str(assistant_json), app_dir))
     AssistantSpec.load(assistant_json).check(app_dir)
