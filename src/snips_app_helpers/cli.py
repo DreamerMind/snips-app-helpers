@@ -58,9 +58,17 @@ def check(assistant_json, app_dir):
 
 class SpecReportCli(specs.message.Report):
 
+    def _print_list(self, msg_type, messages, color):
+        click.echo(click.style(str(
+            "\n" +
+            msg_type.print_list(
+                messages
+            )
+        ), fg=color))
+
     def show(self):
-        for message in self.msgs:
-            if isinstance(message, specs.message.Warning):
-                click.echo(click.style(str(message), fg='yellow'))
-            elif isinstance(message, specs.message.Error):
-                click.echo(click.style(str(message), fg='red'))
+        for msg_type, messages in self.grouped_messages.iteritems():
+            if issubclass(msg_type, specs.message.Warning):
+                self._print_list(msg_type, messages, 'yellow')
+            elif issubclass(msg_type, specs.message.Error):
+                self._print_list(msg_type, messages, 'red')
