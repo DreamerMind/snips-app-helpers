@@ -7,9 +7,9 @@ Snips App Helpers
 Snips App Helpers help you to declare, test, and check your snips application.
 Here is the list of tools availlable:
 
-- Adding contract Spec between Snips App and Console Assistant and a cli tool to generate compliance report.
+- Adding contract Spec between Snips Action and Console Assistant and a cli tool to generate compliance report.
 
-- MiddleWare app that remap any app intent & slots to another app based on the given spec
+- MiddleWare Action that remap any Action intent & slots to another Action based on the given spec
 
 Installation
 ============

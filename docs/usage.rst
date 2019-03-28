@@ -16,10 +16,10 @@ This can also happen that there is a slot_ name missmatch due to for example a c
 
 To fix this issue, we developped a tool that behave like this:
 
-1. we expose **manually** for each application a "spec contract in yml" about which
+1. we expose **manually** for each action a "spec contract in yml" about which
 intents_ and slot_ the action_ will use, with a format as follow:
 
-``your_app_dir/my_app_n1/contract.yml``
+``your_app_dir/my_action_n1/contract.yml``
 
 .. code-block:: yaml
 
