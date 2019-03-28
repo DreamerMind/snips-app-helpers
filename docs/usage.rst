@@ -46,6 +46,10 @@ either write it as shown upper or specify only the intent meaning all subcase li
        intent1:
        intent2:
 
+Note: this second method "mask" possible code coverage problem so we highly
+encourage you to use the first version (it will allow more fine grained analysis
+by our tools)
+
 3. A cli match the concordence of both and repport inconsistencies.
 
 ::
