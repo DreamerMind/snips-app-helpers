@@ -91,7 +91,7 @@ class IntentNotInAssistant(Warning):
 
     @property
     def msg(self):
-        return 'Action waiting intent not in assistant:\n\t%s' % self.intent_name
+        return 'Action waiting intent not in assistant: %s' % self.intent_name
 
     @staticmethod
     def print_list(message_list):
@@ -120,13 +120,13 @@ class IntentHookedMultipleTimes(Warning):
 
     @property
     def msg(self):
-        return "Intent %s seems to be hooked multiple times in following action codes:\n\t%s" % (
+        return "Intent %s seems to be hooked multiple times in following action codes: %s" % (
             self.intent_name, self.action_names
         )
 
     @staticmethod
     def print_list(message_list):
         return Message._print_list_helper(
-            'Some Itents seems to be hooked multiple times',
+            'Some Intents seems to be hooked multiple times',
             "intent {intent_name} in actions: {action_names}",
             message_list)

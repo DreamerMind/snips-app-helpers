@@ -51,7 +51,10 @@ def check(assistant_json, app_dir):
         return
     click.echo(('Analysing spec for:\n'
                 '\tassistant: %s\n'
-                '\tapp dir: %s') % (str(assistant_json), app_dir))
+                '\tapp dir: %s') % (
+                    click.style(str(assistant_json), fg="cyan"),
+                    click.style(str(app_dir), fg="cyan")
+                ))
     report_messages = specs.AssistantSpec.load(assistant_json).check(app_dir)
     SpecReportCli(report_messages).show()
 
