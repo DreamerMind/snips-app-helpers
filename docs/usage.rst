@@ -23,13 +23,13 @@ intents_ and slot_ the action_ will use, with a format as follow:
 
 .. code-block:: yaml
 
-   action_name: {str}
+   name: {str}
 
    version: {sem_ver notation}
    supported_snips_version: [{version}, {version}, ...]
    last_update_date: {date ISO 8601}
 
-   spec:
+   coverage:
        intent1:
            - [slotA, slotB]
            - [slotA]
@@ -37,19 +37,30 @@ intents_ and slot_ the action_ will use, with a format as follow:
            - [slotC, SlotD, SlotA]
    ...
 
+that coverage section is the one used to specify what to check you can
+either write it as shown upper or specify only the intent meaning all subcase like this:
+
+.. code-block:: yaml
+
+   coverage:
+       intent1:
+       intent2:
+
 3. A cli match the concordence of both and repport inconsistencies.
 
 ::
 
    snips-app spec check --assistant_dir ... --actions_dir ...
 
-(I invite you to alias snips-toolbelt to st)
+(I invite you to alias snips-app to sap)
 
 A typical report of the CLI looks like this:
 
 ::
 
-   TODO
+   NoSpec: missing spec for action dir ...
+   ActionSpecCoverage: contract broken by action spec because ...
+   UnknownAssistantCoverage: who cover these usecases ? ...
 
 The Spec Middleware
 -------------------

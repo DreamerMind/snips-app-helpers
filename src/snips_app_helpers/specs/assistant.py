@@ -6,7 +6,7 @@ import json
 import datetime
 
 from . import ActionSpec
-from . import NoSpec
+from . import message
 
 
 class IntentSpec(object):
@@ -51,8 +51,15 @@ class AssistantSpec(object):
         self.name = name
         self.language = language
         self.versions = versions
-        self.intents = intents
+        self._intents_list = intents
         self.created_at = created_at
+
+    @property
+    def intents(self):
+        return {
+            intent_spec.name: intent_spec
+            for intent_spec in self._intents_list
+        }
 
     @classmethod
     def load(cls, assistant_json):
@@ -78,15 +85,29 @@ class AssistantSpec(object):
 
     def compare_to_action_specs(self, action_spec_list):
         report_msgs = []
+        intents_coverage = set()
         for action_spec in action_spec_list:
             if not action_spec.have_spec:
-                report_msgs.append(NoSpec(
+                report_msgs.append(message.NoSpec(
                     'missing spec for %s' % action_spec.action_dir))
+                continue
+            for action_intent_trigger in action_spec.coverage:
+                if action_intent_trigger in self.intents:
+                    intents_coverage.add(action_intent_trigger)
+                else:
+                    report_msgs.append(message.IntentNotInAssistant(
+                        'Action waiting intent not in assistant: %s' % action_intent_trigger
+                    ))
+        for not_covered_intent in set(self.intents).difference(intents_coverage):
+            report_msgs.append(message.NotCoveredIntent(
+                'Intent "%s" seems to not be covered by any action code !' % not_covered_intent
+            ))
         return report_msgs
 
     def check(self, actions_dir):
-        action_specs = ActionSpec.load_all_in_action_code_dir(actions_dir)
-        return self.compare_to_action_specs(action_specs)
+        return self.compare_to_action_specs(
+            ActionSpec.load_all_in_action_code_dir(actions_dir)
+        )
 
     def __str__(self):
         return "<%s name='%s' lang='%s' nb_intents=%s versions=[%s] created_at=%s>" % (

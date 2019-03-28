@@ -35,8 +35,14 @@ class Warning(Message):
 class Error(Message):
     pass
 
-# setted Messages
+# dedicated Messages
 
 
 class NoSpec(Warning):
+    pass
+
+class IntentNotInAssistant(Warning):
+    pass
+
+class NotCoveredIntent(Error):
     pass

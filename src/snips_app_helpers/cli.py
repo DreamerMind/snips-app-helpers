@@ -55,9 +55,11 @@ def check(assistant_json, app_dir):
     report_messages = specs.AssistantSpec.load(assistant_json).check(app_dir)
     SpecReportCli(report_messages).show()
 
-class SpecReportCli(specs.Report):
+class SpecReportCli(specs.message.Report):
 
     def show(self):
         for message in self.msgs:
-            if isinstance(message, specs.Warning):
+            if isinstance(message, specs.message.Warning):
                 click.echo(click.style(str(message), fg='yellow'))
+            elif isinstance(message, specs.message.Error):
+                click.echo(click.style(str(message), fg='red'))
