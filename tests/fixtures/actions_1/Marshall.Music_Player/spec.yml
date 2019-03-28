@@ -9,3 +9,16 @@ udpated_at: "2019-03-26"
 coverage:
     MySuperFakeIntent:
     getCurrentTime:
+    volumeConverter:
+    shiftUp:
+    addSong:
+    playArtist:
+    playAlbum:
+    playSong:
+    volumeDown:
+    nextSong:
+    volumeUp:
+    volumeDown:
+    resumeMusic:
+    playPlaylist:
+    radioOn:
