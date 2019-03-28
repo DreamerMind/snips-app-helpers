@@ -98,7 +98,8 @@ class AssistantSpec(object):
                     intents_coverage[action_intent_trigger].append(action_spec.name)
                 else:
                     report_msgs.append(message.IntentNotInAssistant(
-                        intent_name=action_intent_trigger
+                        intent_name=action_intent_trigger,
+                        action_name=action_spec.name,
                     ))
         for intent_name, action_names in intents_coverage.iteritems():
             if len(action_names) > 1:
