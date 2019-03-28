@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import datetime
 from collections import defaultdict
+from string import Formatter
 
 
 class Report(object):
@@ -30,6 +31,21 @@ class Message(object):
     @property
     def msg(self):
         raise NotImplementedError("please add it in your message subclass")
+
+    @staticmethod
+    def _print_list_helper(static_msg, list_msg, message_list):
+        def kwargs_fn(msg):
+            fieldnames = [
+                fname
+                for _, fname, _, _ in Formatter().parse(list_msg)
+                if fname]
+            return {
+                fieldname: getattr(msg, fieldname)
+                for fieldname in fieldnames
+            }
+        return '%s:\n\t%s' % (static_msg, "\n\t".join(
+            "- " + list_msg.format(**kwargs_fn(msg)) for msg in message_list
+        ))
 
     @staticmethod
     def print_list(message_list):
@@ -64,8 +80,10 @@ class NoSpec(Warning):
 
     @staticmethod
     def print_list(message_list):
-        return 'Missing spec for following actions:\n\t%s' % "\n\t".join(
-            "- %s" % msg.action_dir for msg in message_list
+        return Message._print_list_helper(
+            'Missing spec for following actions',
+            "{action_dir}",
+            message_list
         )
 
 
@@ -77,8 +95,10 @@ class IntentNotInAssistant(Warning):
 
     @staticmethod
     def print_list(message_list):
-        return 'Action waiting intent not in assistant:\n\t%s' % "\n\t".join(
-            "- %s" % msg.intent_name for msg in message_list
+        return Message._print_list_helper(
+            'Action waiting intent not in assistant',
+            "{intent_name}",
+            message_list
         )
 
 
@@ -90,9 +110,10 @@ class NotCoveredIntent(Error):
 
     @staticmethod
     def print_list(message_list):
-        return 'Intents do not seem to be covered by any action code:\n\t%s' % "\n\t".join(
-            "- %s" % msg.intent_name for msg in message_list
-        )
+        return Message._print_list_helper(
+            'Intents do not seem to be covered by any action code',
+            "{intent_name}",
+            message_list)
 
 
 class IntentHookedMultipleTimes(Warning):
@@ -105,6 +126,7 @@ class IntentHookedMultipleTimes(Warning):
 
     @staticmethod
     def print_list(message_list):
-        return 'Some Itents seems to be hooked multiple times:\n\t%s' % "\n\t".join(
-            "- intent %s in actions: %s" % (msg.intent_name, msg.action_names)for msg in message_list
-        )
+        return Message._print_list_helper(
+            'Some Itents seems to be hooked multiple times',
+            "intent {intent_name} in actions: {action_names}",
+            message_list)
