@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import json
 import datetime
+from collections import defaultdict
 
 from . import ActionSpec
 from . import message
@@ -85,7 +86,7 @@ class AssistantSpec(object):
 
     def compare_to_action_specs(self, action_spec_list):
         report_msgs = []
-        intents_coverage = set()
+        intents_coverage = defaultdict(list)
         for action_spec in action_spec_list:
             if not action_spec.have_spec:
                 report_msgs.append(message.NoSpec(
@@ -93,11 +94,20 @@ class AssistantSpec(object):
                 continue
             for action_intent_trigger in action_spec.coverage:
                 if action_intent_trigger in self.intents:
-                    intents_coverage.add(action_intent_trigger)
+                    intents_coverage[action_intent_trigger].append(action_spec.name)
                 else:
                     report_msgs.append(message.IntentNotInAssistant(
                         'Action waiting intent not in assistant: %s' % action_intent_trigger
                     ))
+        for intent_name, action_names in intents_coverage.iteritems():
+            if len(action_names) > 1:
+                report_msgs.append(
+                    message.IntentHookedMultipleTimes(
+                        "Intent %s seems to be hooked multiple times in following action codes: %s" % (
+                            intent_name, action_names
+                        )
+                    )
+                )
         for not_covered_intent in set(self.intents).difference(intents_coverage):
             report_msgs.append(message.NotCoveredIntent(
                 'Intent "%s" seems to not be covered by any action code !' % not_covered_intent

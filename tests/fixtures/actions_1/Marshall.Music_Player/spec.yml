@@ -8,3 +8,4 @@ udpated_at: "2019-03-26"
 
 coverage:
     MySuperFakeIntent:
+    getCurrentTime:

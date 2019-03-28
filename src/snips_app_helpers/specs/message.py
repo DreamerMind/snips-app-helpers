@@ -41,8 +41,14 @@ class Error(Message):
 class NoSpec(Warning):
     pass
 
+
 class IntentNotInAssistant(Warning):
     pass
 
+
 class NotCoveredIntent(Error):
+    pass
+
+
+class IntentHookedMultipleTimes(Warning):
     pass

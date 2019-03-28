@@ -55,6 +55,7 @@ def check(assistant_json, app_dir):
     report_messages = specs.AssistantSpec.load(assistant_json).check(app_dir)
     SpecReportCli(report_messages).show()
 
+
 class SpecReportCli(specs.message.Report):
 
     def show(self):
