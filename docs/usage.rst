@@ -73,7 +73,8 @@ Once you have the specs defined as bellow you can use it to various purposes.
 
 One of them is to match a action_ spec to an assistant spec, without modifying
 any of both. This is usefull in the case you want a console_ app
-and actionto communicate but both beeing open 3rd party. How is that even possible ?
+and action to communicate but both beeing open 3rd party, or you develop only the
+action and dislike the interface. How is that even possible ?
 
 :stars: Link to the rescue
 
