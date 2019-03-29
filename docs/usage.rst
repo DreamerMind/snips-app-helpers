@@ -50,7 +50,16 @@ Note: this second method "mask" possible code coverage problem so we highly
 encourage you to use the first version (it will allow more fine grained analysis
 by our tools)
 
-3. A cli match the concordence of both and repport inconsistencies.
+
+If the action code is not yours you obviously do not want to add the spec file
+in this 3rd party directory (who knows what will happen at next update).
+But you can create a spec file in one of your managed action code following
+the name convention:
+``your_app_dir/my_action_n1/{my_3rd_pary_action}.spec.yml``
+where `my_3rd_pary_action` is the 3rd party action code folder name
+
+
+3. A cli match the concordence of both and report inconsistencies.
 
 ::
 
@@ -62,9 +71,39 @@ A typical report of the CLI looks like this:
 
 ::
 
-   NoSpec: missing spec for action dir ...
-   ActionSpecCoverage: contract broken by action spec because ...
-   UnknownAssistantCoverage: who cover these usecases ? ...
+   Analysing spec for:
+        assistant: /home/epi/open/projects/snips-app-helpers/tests/fixtures/assistant_1/assistant.json
+        app dir: /home/epi/open/projects/snips-app-helpers/tests/fixtures/actions_1
+
+   Detected spec:
+           - @ Likhitha.Today/spec.yml applied to Likhitha.Today
+           - @ Likhitha.Today/ozie.Calculations.spec.yml applied to ozie.Calculations
+             ...
+
+   Intents do not seem to be covered by any action code:
+           - currencyConverter
+             ...
+           Remarks:
+                   This might be due to missing spec in some action codes else you
+                   should take it seriously as no response at all will be given by your
+                   assistant to final user.
+
+   Some Intents seems to be hooked multiple times:
+           - intent getCurrentTime in actions: ['Today', 'Music Player']
+             ...
+           Remarks:
+                   While it might be legit do not forget that it means each time you
+                   trigger this intent n actions will be performed
+
+   Action waiting intent not in assistant:
+           - MySuperFakeIntent from action: Music Player
+           Remarks:
+                   This should not be a problem except that it consume resource with
+                   useless purpose
+
+   Missing spec for following actions:
+           - Snips.Smart_Lights_-_Hue
+             ...
 
 The Spec Middleware
 -------------------
