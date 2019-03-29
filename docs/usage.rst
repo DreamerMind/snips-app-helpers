@@ -19,7 +19,7 @@ To fix this issue, we developped a tool that behave like this:
 1. we expose **manually** for each action a "spec contract in yml" about which
 intents_ and slot_ the action_ will use, with a format as follow:
 
-``your_app_dir/my_action_n1/contract.yml``
+``your_app_dir/my_action_n1/spec.yml``
 
 .. code-block:: yaml
 

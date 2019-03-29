@@ -70,6 +70,11 @@ class SpecReportCli(specs.message.Report):
         ), fg=color))
 
     def show(self):
+        # infos on top
+        for msg_type, messages in self.grouped_messages.iteritems():
+            if issubclass(msg_type, specs.message.Info):
+                self._print_list(msg_type, messages, 'cyan')
+
         for msg_type, messages in self.grouped_messages.iteritems():
             if issubclass(msg_type, specs.message.Warning):
                 self._print_list(msg_type, messages, 'yellow')

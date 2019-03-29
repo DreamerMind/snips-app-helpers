@@ -88,6 +88,14 @@ class AssistantSpec(object):
         report_msgs = []
         intents_coverage = defaultdict(list)
         for action_spec in action_spec_list:
+            report_msgs.append(
+                message.DetectedSpec(
+                    spec_filepath=action_spec.spec_filepath.relative_to(
+                        action_spec.action_dir.parent
+                    ),
+                    action_dir=action_spec.action_dir.name,
+                )
+            )
             if not action_spec.have_spec:
                 report_msgs.append(message.NoSpec(
                     action_dir=action_spec.action_dir

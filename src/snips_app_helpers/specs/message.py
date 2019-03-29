@@ -71,6 +71,10 @@ class Message(object):
         return self.__str__()
 
 
+class Info(Message):
+    pass
+
+
 class Warning(Message):
     pass
 
@@ -79,6 +83,16 @@ class Error(Message):
     pass
 
 # dedicated Messages
+
+
+class DetectedSpec(Info):
+
+    STATIC_MSG = 'Detected spec'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "@ {spec_filepath} applied to {action_dir}", message_list)
 
 
 class NoSpec(Warning):
