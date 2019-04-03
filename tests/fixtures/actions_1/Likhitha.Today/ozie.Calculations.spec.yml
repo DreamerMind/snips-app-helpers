@@ -5,6 +5,24 @@ version: "0.4.1"
 supported_snips_version: ["0.62.1"]
 udpated_at: "2019-03-26"
 
+slots:
+   function: "entito"
+   number: "snips/number"
+
 
 coverage:
    mathsQuestion:
+       [
+            [
+                "function",
+                "number",
+            ],
+            [
+                "number",
+                "function",
+                "number",
+            ],
+            [
+                "numberx"
+            ]
+       ]

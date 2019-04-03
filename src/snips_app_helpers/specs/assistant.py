@@ -43,7 +43,6 @@ class IntentSpec(object):
         return self.__str__()
 
 
-
 class AssistantSpec(object):
 
     """ AssistantSpec Contract Specification """
@@ -84,11 +83,50 @@ class AssistantSpec(object):
             ],
         )
 
+    def _check_slots(self, action_intent_trigger, slot_spec, action_spec):
+
+        assistant_intent_slot_names, assistant_intent_slot_type = zip(*[
+            (slot.get('name'), slot.get('entityId'))
+            for slot in self.intents[action_intent_trigger].slots
+        ])
+
+        report_msgs = set()
+        # check all slot exist in assistant
+        # and are the same type
+        for intent_slot_config in slot_spec:
+            for slot_name in intent_slot_config:
+                try:
+                    idx = assistant_intent_slot_names.index(slot_name)
+                    if action_spec.slots:
+                        slot_type = action_spec.slots.get(slot_name)
+                        expected_slot_type = assistant_intent_slot_type[idx]
+                        if slot_type and not expected_slot_type.startswith(slot_type):
+
+                            report_msgs.add(message.InvalidSlotType(
+                                spec_filepath=action_spec.spec_filepath.relative_to(
+                                    action_spec.action_dir.parent
+                                ),
+                                intent_name=action_intent_trigger,
+                                slot_name=slot_name,
+                                slot_type=slot_type,
+                                expected_slot_type=expected_slot_type,
+                            ))
+                except ValueError:
+                    report_msgs.add(message.MissingSlot(
+                        spec_filepath=action_spec.spec_filepath.relative_to(
+                            action_spec.action_dir.parent
+                        ),
+                        intent_name=action_intent_trigger,
+                        slot_name=slot_name,
+                        assistant_slot_names=assistant_intent_slot_names,
+                    ))
+        return report_msgs
+
     def compare_to_action_specs(self, action_spec_list):
-        report_msgs = []
+        report_msgs = set()
         intents_coverage = defaultdict(list)
         for action_spec in action_spec_list:
-            report_msgs.append(
+            report_msgs.add(
                 message.DetectedSpec(
                     spec_filepath=action_spec.spec_filepath.relative_to(
                         action_spec.action_dir.parent
@@ -97,27 +135,33 @@ class AssistantSpec(object):
                 )
             )
             if not action_spec.have_spec:
-                report_msgs.append(message.NoSpec(
+                report_msgs.add(message.NoSpec(
                     action_dir=action_spec.action_dir
                 ))
                 continue
-            for action_intent_trigger in action_spec.coverage:
+
+            for action_intent_trigger, slot_spec in action_spec.coverage.iteritems():
                 if action_intent_trigger in self.intents:
+                    if slot_spec:
+                        report_msgs.update(self._check_slots(
+                            action_intent_trigger,
+                            slot_spec,
+                            action_spec))
                     intents_coverage[action_intent_trigger].append(action_spec.name)
                 else:
-                    report_msgs.append(message.IntentNotInAssistant(
+                    report_msgs.add(message.IntentNotInAssistant(
                         intent_name=action_intent_trigger,
                         action_name=action_spec.name,
                     ))
         for intent_name, action_names in intents_coverage.iteritems():
             if len(action_names) > 1:
-                report_msgs.append(
+                report_msgs.add(
                     message.IntentHookedMultipleTimes(
                         intent_name=intent_name, action_names=action_names
                     )
                 )
         for not_covered_intent in set(self.intents).difference(intents_coverage):
-            report_msgs.append(message.NotCoveredIntent(intent_name=not_covered_intent))
+            report_msgs.add(message.NotCoveredIntent(intent_name=not_covered_intent))
         return report_msgs
 
     def check(self, actions_dir):

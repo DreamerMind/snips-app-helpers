@@ -15,6 +15,7 @@ class ActionSpec(object):
         "supported_snips_versions",
         "version",
         "coverage",
+        "slots",
         "udpated_at"
     ]
 

@@ -33,6 +33,7 @@ intents_ and slot_ the action_ will use, with a format as follow:
        intent1:
            - [slotA, slotB]
            - [slotA]
+           - [slotZ, slotW]
        intent2:
            - [slotC, SlotD, SlotA]
    ...

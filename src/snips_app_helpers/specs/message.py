@@ -29,6 +29,7 @@ class Message(object):
     STATIC_MSG = "NOT IMPLEMENTED"
 
     def __init__(self, **kwargs):
+        self.__kwargs = sorted(kwargs.keys())
         for key, val in kwargs.iteritems():
             setattr(self, key, val)
 
@@ -60,6 +61,15 @@ class Message(object):
     def print_list(message_list):
         raise NotImplementedError("please add it in your message subclass")
 
+    @property
+    def _signature(self):
+        return '-'.join(str(getattr(self, k)) for k in self.__kwargs)
+
+    def __eq__(self, other):
+        return self._signature == other._signature
+
+    def __hash__(self):
+        return hash(self._signature)
 
     def __str__(self):
         return "%s: %s" % (self.__class__.__name__, self.STATIC_MSG)
@@ -70,6 +80,9 @@ class Message(object):
     def __unicode__(self):
         return self.__str__()
 
+
+class System(Message):
+    pass
 
 class Info(Message):
     pass
@@ -83,6 +96,16 @@ class Error(Message):
     pass
 
 # dedicated Messages
+
+
+class CorrectlyLinked(System):
+
+    STATIC_MSG = 'Correctly linked intent to action code'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "@ {spec_filepath} applied to {action_dir} {intent_name}", message_list)
 
 
 class DetectedSpec(Info):
@@ -131,6 +154,30 @@ class NotCoveredIntent(Error):
             "else you should take it seriously as no response at all will be given"
             " by your assistant to final user.",
         )
+
+
+class MissingSlot(Error):
+
+    STATIC_MSG = 'Action code declared use of a slot NAME that does not exist in assistant'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "@ {spec_filepath} intent {intent_name} slot_name {slot_name} not in {assistant_slot_names}",
+            message_list)
+
+
+class InvalidSlotType(Error):
+
+    STATIC_MSG = 'Action code declared use of a slot TYPE that is invalid in assistant'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "@ {spec_filepath} intent '{intent_name}' slot_name '{slot_name}' "
+            "declared as type starting with '{slot_type}' but is '{expected_slot_type}' "
+            "in assistant",
+            message_list)
 
 
 class IntentHookedMultipleTimes(Warning):
