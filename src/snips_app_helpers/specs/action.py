@@ -4,8 +4,10 @@ from __future__ import print_function
 
 import yaml
 
+from .. import utils
 
-class ActionSpec(object):
+
+class ActionSpec(utils.BaseObj):
 
     FILENAME = "spec.yml"
     SUFFIX_EXTERAL_FILENAME = "." + FILENAME
@@ -88,9 +90,3 @@ class ActionSpec(object):
                 "%s=%s" % (attr, getattr(self, attr)) for attr in self.ATTRS)
             )
         )
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __unicode__(self):
-        return self.__str__()

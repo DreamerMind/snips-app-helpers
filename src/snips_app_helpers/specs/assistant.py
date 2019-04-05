@@ -8,9 +8,11 @@ from collections import defaultdict
 
 from . import ActionSpec
 from . import message
+from ..dataset import Dataset
+from .. import utils
 
 
-class IntentSpec(object):
+class IntentSpec(utils.BaseObj):
 
     def __init__(self, name, id, slots, version):
         self.name = name
@@ -36,23 +38,19 @@ class IntentSpec(object):
             self.version
         )
 
-    def __repr__(self):
-        return self.__str__()
 
-    def __unicode__(self):
-        return self.__str__()
-
-
-class AssistantSpec(object):
+class AssistantSpec(utils.BaseObj):
 
     """ AssistantSpec Contract Specification """
 
-    def __init__(self, name, language, versions, intents, created_at):
+    def __init__(self, name, language, versions, intents, created_at, original_path):
         self.name = name
         self.language = language
         self.versions = versions
         self._intents_list = intents
         self.created_at = created_at
+        self._original_path = original_path
+        self._dataset = None
 
     @property
     def intents(self):
@@ -81,7 +79,17 @@ class AssistantSpec(object):
             intents=[
                 IntentSpec.load(_) for _ in assistant_spec.get('intents', [])
             ],
+            original_path=assistant_json,
         )
+
+    @property
+    def dataset(self):
+        if self._dataset:
+            return self._dataset
+        self._dataset = Dataset.from_json(
+            self.language, self._original_path.parent / "dataset.json"
+        )
+        return self._dataset
 
     def _check_slots(self, action_intent_trigger, slot_spec, action_spec):
 
@@ -91,8 +99,10 @@ class AssistantSpec(object):
         ])
 
         report_msgs = set()
-        # check all slot exist in assistant
-        # and are the same type
+        # TODO check full coverage
+        # dataset_intent = self.datasets.itent_per_name.get(action_intent_trigger)
+        # to_cover_seq = dataset_intent.slots_sequences
+
         for intent_slot_config in slot_spec:
             for slot_name in intent_slot_config:
                 try:
@@ -180,9 +190,3 @@ class AssistantSpec(object):
                 datetime.datetime.strptime(
                     self.created_at, "%Y-%m-%dT%H:%M:%S.%fZ").date())
         )
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __unicode__(self):
-        return self.__str__()

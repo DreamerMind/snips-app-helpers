@@ -8,6 +8,8 @@ from collections import defaultdict
 from string import Formatter
 from textwrap import TextWrapper
 
+from .. import utils
+
 
 class Report(object):
 
@@ -25,7 +27,7 @@ class Report(object):
 
 # base messages
 
-class Message(object):
+class Message(utils.BaseObj):
     STATIC_MSG = "NOT IMPLEMENTED"
 
     def __init__(self, **kwargs):
@@ -73,12 +75,6 @@ class Message(object):
 
     def __str__(self):
         return "%s: %s" % (self.__class__.__name__, self.STATIC_MSG)
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __unicode__(self):
-        return self.__str__()
 
 
 class System(Message):
