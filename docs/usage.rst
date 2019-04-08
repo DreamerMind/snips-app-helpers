@@ -27,16 +27,33 @@ intents_ and slot_ the action_ will use, with a format as follow:
 
    version: {sem_ver notation}
    supported_snips_version: [{version}, {version}, ...]
-   last_update_date: {date ISO 8601}
+   updated_at: {date ISO 8601}
+
+   slots:
+      {slot_name_A}: "slot_type_startwith_1"
+      {slot_name_B}: "slot_type_startwith_2"
+      ...
 
    coverage:
        intent1:
-           - [slotA, slotB]
-           - [slotA]
-           - [slotZ, slotW]
+          [
+               [
+                   "slot_name_A",
+                   "slot_name_B",
+               ],
+               [
+                   "slot_name_A",
+                   "slot_name_B",
+                   "slot_name_A"
+               ],
+               [
+                   "slot_name_C"
+               ]
+          ]
        intent2:
-           - [slotC, SlotD, SlotA]
+           - [slot_name_A, slot_name_B, slot_name_C]
    ...
+
 
 that coverage section is the one used to specify what to check you can
 either write it as shown upper or specify only the intent meaning all subcase like this:
@@ -101,6 +118,10 @@ A typical report of the CLI looks like this:
            Remarks:
                    This should not be a problem except that it consume resource with
                    useless purpose
+
+   Intents do not seem to cover the slot sequence:
+        - @ .../ozie.Calculations.spec.yml intent mathsQuestion [number,function,number,function,number]
+
 
    Missing spec for following actions:
            - Snips.Smart_Lights_-_Hue
