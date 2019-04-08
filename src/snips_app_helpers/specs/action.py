@@ -28,7 +28,7 @@ class ActionSpec(utils.BaseObj):
         self.spec_filepath = spec_filepath
         self.action_dir = action_dir
         self.have_spec = have_spec
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             if k in self.ATTRS:
                 setattr(self, k, v)
 

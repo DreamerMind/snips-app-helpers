@@ -32,7 +32,7 @@ class Message(utils.BaseObj):
 
     def __init__(self, **kwargs):
         self.__kwargs = sorted(kwargs.keys())
-        for key, val in kwargs.iteritems():
+        for key, val in kwargs.items():
             setattr(self, key, val)
 
     @classmethod

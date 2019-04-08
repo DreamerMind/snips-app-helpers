@@ -183,12 +183,12 @@ class Dataset(utils.BaseObj):
             dataset_dic = json.load(fh)
         entities = []
         intents = []
-        for doc_type, docs in dataset_dic.iteritems():
+        for doc_type, docs in dataset_dic.items():
             if doc_type == "entities":
-                for entity, item in docs.iteritems():
+                for entity, item in docs.items():
                     entities.append(Entity.from_dic(entity, item))
             elif doc_type == "intents":
-                for intent_name, item in docs.iteritems():
+                for intent_name, item in docs.items():
                     intents.append(Intent.from_dic(intent_name, item))
         return cls(language, intents, entities)
 

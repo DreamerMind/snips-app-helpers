@@ -166,7 +166,7 @@ class AssistantSpec(utils.BaseObj):
                 ))
                 continue
 
-            for action_intent_trigger, slot_spec in action_spec.coverage.iteritems():
+            for action_intent_trigger, slot_spec in action_spec.coverage.items():
                 if action_intent_trigger in self.intents:
                     if slot_spec:
                         report_msgs.update(self._check_slots(
@@ -181,7 +181,7 @@ class AssistantSpec(utils.BaseObj):
                         intent_name=action_intent_trigger,
                         action_name=action_spec.name,
                     ))
-        for intent_name, action_names in intents_coverage.iteritems():
+        for intent_name, action_names in intents_coverage.items():
             if len(action_names) > 1:
                 report_msgs.add(
                     message.IntentHookedMultipleTimes(
@@ -203,7 +203,7 @@ class AssistantSpec(utils.BaseObj):
             self.name,
             self.language,
             len(self.intents),
-            ",".join("%s=%s" % (k, v) for k, v in self.versions.iteritems()),
+            ",".join("%s=%s" % (k, v) for k, v in self.versions.items()),
             str(
                 datetime.datetime.strptime(
                     self.created_at, "%Y-%m-%dT%H:%M:%S.%fZ").date())
