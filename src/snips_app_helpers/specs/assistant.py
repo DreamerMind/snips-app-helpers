@@ -91,7 +91,7 @@ class AssistantSpec(utils.BaseObj):
         )
         return self._dataset
 
-    def _check_slots(self, action_intent_trigger, slot_spec, action_spec):
+    def _check_slots(self, action_intent_trigger, slot_spec, action_spec, spec_filepath):
 
         assistant_intent_slot_names, assistant_intent_slot_type = zip(*[
             (slot.get('name'), slot.get('entityId'))
@@ -99,9 +99,24 @@ class AssistantSpec(utils.BaseObj):
         ])
 
         report_msgs = set()
-        # TODO check full coverage
-        # dataset_intent = self.datasets.itent_per_name.get(action_intent_trigger)
-        # to_cover_seq = dataset_intent.slots_sequences
+        dataset_intent = self.dataset.intent_per_name.get(action_intent_trigger)
+        if not dataset_intent:
+            # incoherence between dataset.json and assistant.json !
+            report_msgs.add(message.IncoherentAssistantDatasetIntent(
+                spec_filepath=spec_filepath,
+
+            ))
+            return report_msgs
+        else:
+            # Check full coverage
+            uncovered_seq = dataset_intent.slots_sequences.difference(
+                [tuple(seq_case) for seq_case in slot_spec])
+            for slot_seq in uncovered_seq:
+                report_msgs.add(message.CoverageSlotSeq(
+                    spec_filepath=spec_filepath,
+                    intent_name=action_intent_trigger,
+                    slots_sequences='[%s]' % ','.join(slot_seq)
+                ))
 
         for intent_slot_config in slot_spec:
             for slot_name in intent_slot_config:
@@ -136,11 +151,12 @@ class AssistantSpec(utils.BaseObj):
         report_msgs = set()
         intents_coverage = defaultdict(list)
         for action_spec in action_spec_list:
+            spec_filepath = action_spec.spec_filepath.relative_to(
+                action_spec.action_dir.parent
+            )
             report_msgs.add(
                 message.DetectedSpec(
-                    spec_filepath=action_spec.spec_filepath.relative_to(
-                        action_spec.action_dir.parent
-                    ),
+                    spec_filepath=spec_filepath,
                     action_dir=action_spec.action_dir.name,
                 )
             )
@@ -156,7 +172,9 @@ class AssistantSpec(utils.BaseObj):
                         report_msgs.update(self._check_slots(
                             action_intent_trigger,
                             slot_spec,
-                            action_spec))
+                            action_spec,
+                            spec_filepath
+                        ))
                     intents_coverage[action_intent_trigger].append(action_spec.name)
                 else:
                     report_msgs.add(message.IntentNotInAssistant(

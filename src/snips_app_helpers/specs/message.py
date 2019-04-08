@@ -152,6 +152,30 @@ class NotCoveredIntent(Error):
         )
 
 
+class IncoherentAssistantDatasetIntent(Error):
+
+    STATIC_MSG = 'Intents do not seem to be in dataset.json but is in assistant.json'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "{intent_name}",
+            message_list
+        )
+
+
+class CoverageSlotSeq(Warning):
+
+    STATIC_MSG = 'Intents do not seem to cover the slot sequence'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "@ {spec_filepath} intent {intent_name} {slots_sequences}",
+            message_list
+        )
+
+
 class MissingSlot(Error):
 
     STATIC_MSG = 'Action code declared use of a slot NAME that does not exist in assistant'

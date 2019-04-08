@@ -6,12 +6,12 @@ supported_snips_version: ["0.62.1"]
 udpated_at: "2019-03-26"
 
 slots:
-   function: "entito"
+   function: "entity"
    number: "snips/number"
 
 
 coverage:
-   mathsQuestion:
+    "mathsQuestion":
        [
             [
                 "function",
