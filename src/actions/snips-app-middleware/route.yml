@@ -1,0 +1,7 @@
+# routing table
+
+"Likhitha:day":
+   to: "my_intent1"
+   slots:
+       alpha: beta
+       gamma: theta
