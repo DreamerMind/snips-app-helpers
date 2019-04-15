@@ -6,9 +6,10 @@ Snips App Helpers
     :target: https://readthedocs.org/projects/snips-app-helpers
     :alt: Documentation Status
 
-.. image:: https://travis-ci.org/dreamermind/snips-app-helpers.svg?branch=master
+.. image:: https://travis-ci.org/DreamerMind/snips-app-helpers.svg?branch=master
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/dreamermind/snips-app-helpers
+    :target: https://travis-ci.org/DreamerMind/snips-app-helpers
+
 
 .. image:: https://codecov.io/github/dreamermind/snips-app-helpers/coverage.svg?branch=master
     :alt: Coverage Status
