@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='snips-app-helpers',
-    version='0.0.1',
+    version='0.0.2',
     license='MIT license',
     description='Handful of cli and other tools to develop with confidence Snips services',
     long_description='%s\n%s' % (
@@ -33,7 +33,7 @@ setup(
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     author='Dreamermind',
-    author_email='sigmer66@gmail.com',
+    author_email='sigmer66 (at) gmail.com',
     url='https://github.com/dreamermind/snips-app-helpers',
     packages=find_packages('src'),
     package_dir={'': 'src'},
