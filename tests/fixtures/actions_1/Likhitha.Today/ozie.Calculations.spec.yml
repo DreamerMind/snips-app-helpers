@@ -13,16 +13,7 @@ slots:
 coverage:
     "mathsQuestion":
        [
-            [
-                "function",
-                "number",
-            ],
-            [
-                "number",
-                "function",
-                "number",
-            ],
-            [
-                "numberx"
-            ]
+           # unordered slot qte
+            [ ["function", "+"], ["number", "+"] ],
+            [ ["numberx", 1] ]
        ]

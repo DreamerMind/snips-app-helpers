@@ -1,8 +1,7 @@
-from __future__ import absolute_import, print_function, unicode_literals
-
 from abc import ABCMeta, abstractmethod
 from builtins import object
 from io import IOBase
+from collections import Counter
 
 import yaml
 from future.utils import with_metaclass
@@ -10,7 +9,7 @@ from future.utils import with_metaclass
 from .constants import DATA, ENTITY, SLOT_NAME, TEXT, UTTERANCES
 from .exceptions import IntentFormatError
 
-from .. import utils
+from ... import utils
 
 
 class Intent(utils.BaseObj):
@@ -148,7 +147,8 @@ class Intent(utils.BaseObj):
     @property
     def slots_sequences(self):
         return set([
-            tuple(sc.slot_name for sc in utterance.slot_chunks)
+            tuple((k, v) for k, v in Counter(sc.slot_name for sc in
+                                             utterance.slot_chunks).items())
             for utterance in self.utterances
         ])
 
@@ -202,7 +202,7 @@ class IntentUtterance(utils.BaseObj):
 
     @property
     def tmpl(self):
-        return ''.join(unicode(c) for c in self.chunks)
+        return ''.join(str(c) for c in self.chunks)
 
 
     @property

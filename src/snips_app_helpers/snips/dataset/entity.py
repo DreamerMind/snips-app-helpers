@@ -1,5 +1,4 @@
 # coding=utf-8
-from __future__ import unicode_literals
 
 from builtins import str
 from io import IOBase
@@ -11,7 +10,7 @@ from .constants import (
     AUTOMATICALLY_EXTENSIBLE, DATA, MATCHING_STRICTNESS, SYNONYMS,
     USE_SYNONYMS, VALUE)
 from .exceptions import EntityFormatError
-from .. import utils
+from ... import utils
 
 
 class Entity(utils.BaseObj):

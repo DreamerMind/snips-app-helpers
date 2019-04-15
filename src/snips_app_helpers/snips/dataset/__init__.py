@@ -1,10 +1,7 @@
 # coding=utf-8
-from __future__ import print_function, unicode_literals
-
 import io
 from itertools import cycle
 import json
-import tempfile
 
 import yaml
 from snips_nlu_parsers import get_builtin_entity_examples
@@ -12,7 +9,7 @@ from snips_nlu_parsers import get_builtin_entity_examples
 from .entity import Entity
 from .intent import Intent
 from .exceptions import DatasetFormatError
-from .. import utils
+from ... import utils
 
 
 def represent_none(self, _):
@@ -160,7 +157,6 @@ class Dataset(utils.BaseObj):
                 correspond to the
                 :ref:`expected entity format <yaml_entity_format>`
         """
-        language = unicode(language)
         entities = []
         intents = []
         for filename in filenames:
