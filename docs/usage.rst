@@ -36,22 +36,9 @@ intents_ and slot_ the action_ will use, with a format as follow:
 
    coverage:
        intent1:
-          [
-               [
-                   "slot_name_A",
-                   "slot_name_B",
-               ],
-               [
-                   "slot_name_A",
-                   "slot_name_B",
-                   "slot_name_A"
-               ],
-               [
-                   "slot_name_C"
-               ]
-          ]
+            [ ["slot_name_B", "+"], ["slot_name_A", "+"] ],
        intent2:
-           - [slot_name_A, slot_name_B, slot_name_C]
+            [ ["slot_name_B", 1], ["slot_name_A", "+"] ],
    ...
 
 
@@ -119,10 +106,6 @@ A typical report of the CLI looks like this:
                    This should not be a problem except that it consume resource with
                    useless purpose
 
-   Intents do not seem to cover the slot sequence:
-        - @ .../ozie.Calculations.spec.yml intent mathsQuestion [number,function,number,function,number]
-
-
    Missing spec for following actions:
            - Snips.Smart_Lights_-_Hue
              ...
@@ -135,47 +118,30 @@ Once you have the specs defined as bellow you can use it to various purposes.
 One of them is to match a action_ spec to an assistant spec, without modifying
 any of both. This is usefull in the case you want a console_ app
 and action to communicate but both beeing open 3rd party, or you develop only the
-action and dislike the interface. How is that even possible ?
+action and dislike the interface. How is that possible ?
 
-:stars: Link to the rescue
+Thank to a middleware action code.
 
-::
-
-   snips-toolbelt spec link --assistant_spec_path ... --action_spec_path ...
 
 **What it does ?**
 
-It compare both spec and try hard to map the existing action spec to the
-pointed assistant spec, it finally generate automatically a mapping spec, looking
-like this, that can be corrected by hand if missmatch remains. The spec is
-dumped in yml
+based on a routing file written in yml by the user, in the following form
 
-``my_action_dir/contract.link.yml``
+``routing.yml``
 
 .. code-block:: yaml
 
-   action_name: {str}
+   # routing table
 
-   intents:
-       orginal_action_intent_1: mapped_assistant_intent_1
-       orginal_action_intent_2: mapped_assistant_intent_2
-       ...
+   "original_intent1":
+      to: "routed_intent1"
+      slots:
+          original_slot_1: routed_slot_1
+          original_slot_1: routed_slot_2
+          ...
+   ...
 
-   slots:
-       orginal_action_slot_1: mapped_assistant_slot_1
-       orginal_action_slot_2: mapped_assistant_slot_2
-       ...
 
-Then it you want to make your action_ work you need to install another action which
-is in this repository under the [linker_action] naming.
-The previous spec checker command take the link into account so that the resulting
-analysis will be kept coherent.
-
-Action Unit Testing
-===================
-
-Testing an action_
- is hard, due to the very nature of it there is a lot of interaction
-from ASR to NLU to your final intent action.
-
-! To be anounced
+Then it you want to make your redirection work you need to install the action
+`src/actions/snips-app-middleware` with the `routing.yml` file in the same host
+and configure the config.ini to point to this one.

@@ -87,7 +87,8 @@ class CoverageRule(utils.BaseObj):
     def cover(self, slot_sequence):
         if not slot_sequence:
             True
-        # TODO check that every pattern as been consumed
+
+        # TODO fix: check that every pattern as been consumed
 
         # for all elm of sequence
         return all(
@@ -137,15 +138,13 @@ class CoverageIntentSpec(utils.BaseObj):
             [tuple(seq_case) for seq_case in slots_sequences]
         )
 
-    def check(self, dataset_intent, assistant_intent):
+    def check(self, dataset_intent, assistant_intent, action_spec_filepath):
         report_msgs = set()
         # Check full coverage
-        uncovered_seq = self.uncovered_slots_sequence(
-            dataset_intent.slots_sequences)
+        uncovered_seq = self.uncovered_slots_sequence(dataset_intent.slots_sequences)
         for slot_seq in uncovered_seq:
-            # TODO fix action_spec reference
             report_msgs.add(message.CoverageSlotSeq(
-                spec_filepath=self.action_spec.filepath,
+                spec_filepath=action_spec_filepath,
                 intent_name=self.name,
                 slots_sequences='[%s]' % ','.join(slot_seq)
             ))
@@ -237,6 +236,7 @@ class CoverageSpec(utils.BaseObj):
                         report_msgs.update(slot_spec.check(
                             dataset_intent=dataset_intent,
                             assistant_intent=assistant_intent,
+                            action_spec_filepath=self.action_spec.rel_filepath
                         ))
                         report_msgs.update(
                             self.check_slot_consistancy(assistant_intent)
