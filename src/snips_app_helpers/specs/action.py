@@ -14,11 +14,28 @@ class Quantifier(utils.BaseObj):
         self._quantifier = quantifier_str
 
     def contains(self, quantity):
-        # TODO implement simple int
-        # TODO implement {1,10}
-        # TODO implement ?
-        # TODO implement +
-        # TODO implement *
+        if self._quantifier == '+':
+            if quantity <= 0:
+                return False
+        elif self._quantifier == '*':
+            if quantity < 0:
+                return False
+        elif self._quantifier == '?':
+            if quantity < 0:
+                return False
+        elif self._quantifier.startswith('{') and self._quantifier.endswith('}'):
+            # implement {1,10}
+            start, end = map(int,
+                             self._quantifier.replace('{', '').replace('}', '').split(','))
+            if not (start < quantity < end):
+                return False
+        else:
+            try:
+                qte = int(self._quantifier)
+                if quantity != qte:
+                    return False
+            except ValueError:
+                return False
         return True
 
     def __str__(self):
@@ -70,6 +87,8 @@ class CoverageRule(utils.BaseObj):
     def cover(self, slot_sequence):
         if not slot_sequence:
             True
+        # TODO check that every pattern as been consumed
+
         # for all elm of sequence
         return all(
             # at least one coverage block match the elm
