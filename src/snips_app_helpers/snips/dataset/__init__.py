@@ -4,7 +4,6 @@ from itertools import cycle
 import json
 
 import yaml
-from snips_nlu_parsers import get_builtin_entity_examples
 
 from .entity import Entity
 from .intent import Intent
@@ -232,8 +231,7 @@ class Dataset(utils.BaseObj):
 
     def _get_entity_values(self, entity):
         if entity.is_builtin:
-            return cycle(get_builtin_entity_examples(
-                entity.name, self.language))
+            return []
         values = [v for utterance in entity.utterances
                   for v in utterance.variations]
         values_set = set(values)

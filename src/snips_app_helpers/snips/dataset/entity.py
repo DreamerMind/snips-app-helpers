@@ -4,7 +4,6 @@ from builtins import str
 from io import IOBase
 
 import yaml
-from snips_nlu_parsers import get_all_builtin_entities
 
 from .constants import (
     AUTOMATICALLY_EXTENSIBLE, DATA, MATCHING_STRICTNESS, SYNONYMS,
@@ -45,7 +44,7 @@ class Entity(utils.BaseObj):
 
     @property
     def is_builtin(self):
-        return self.name in get_all_builtin_entities()
+        return self.name.startswith('snips/')
 
     @classmethod
     def from_yaml(cls, yaml_dict):
