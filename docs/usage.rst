@@ -23,22 +23,22 @@ intents_ and slot_ the action_ will use, with a format as follow:
 
 .. code-block:: yaml
 
-   name: {str}
+   name: "My Action Code"
 
-   version: {sem_ver notation}
-   supported_snips_version: [{version}, {version}, ...]
-   updated_at: {date ISO 8601}
+   version: "0.0.2"
+   supported_snips_version: ["0.60.1", "0.62.3", ...]
+   updated_at: "12/04/2019"
 
    slots:
-      {slot_name_A}: "slot_type_startwith_1"
-      {slot_name_B}: "slot_type_startwith_2"
+      slot_name_A: "slot_type_startwith_1"
+      slot_name_B: "slot_type_startwith_2"
       ...
 
    coverage:
        intent1:
-            [ ["slot_name_B", "+"], ["slot_name_A", "+"] ],
+            [ ["slot_name_B", "+"], ["slot_name_A", "?"] ],
        intent2:
-            [ ["slot_name_B", 1], ["slot_name_A", "+"] ],
+            [ ["slot_name_B", 1], ["slot_name_A", "{1,4}" ],
    ...
 
 
@@ -55,6 +55,19 @@ Note: this second method "mask" possible code coverage problem so we highly
 encourage you to use the first version (it will allow more fine grained analysis
 by our tools)
 
+About the pattern quantifiers
+-----------------------------
+
+The current implementation used of slot sequence pattern rule are only
+based on the quantity of each slot expected in the intent by the action code
+handler.
+And the following quantifiers follow as mutch as possible the regexp one.
+Here is the list of what is implemented now:
+- "+" between 1 and n
+- "*" between 0 and n
+- "?" between 0 and 1
+- "{1,10}" between 1 and 10
+- 3 always 3
 
 If the action code is not yours you obviously do not want to add the spec file
 in this 3rd party directory (who knows what will happen at next update).
@@ -111,7 +124,7 @@ A typical report of the CLI looks like this:
              ...
 
 The Spec Middleware
--------------------
+===================
 
 Once you have the specs defined as bellow you can use it to various purposes.
 
