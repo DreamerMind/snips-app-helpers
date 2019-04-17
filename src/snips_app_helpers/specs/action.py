@@ -11,7 +11,7 @@ from . import message
 class Quantifier(utils.BaseObj):
 
     def __init__(self, quantifier_str):
-        self._quantifier = quantifier_str
+        self._quantifier = str(quantifier_str)
 
     def contains(self, quantity):
         if self._quantifier == '+':
@@ -21,13 +21,13 @@ class Quantifier(utils.BaseObj):
             if quantity < 0:
                 return False
         elif self._quantifier == '?':
-            if quantity < 0:
+            if quantity < 0 or quantity > 1:
                 return False
         elif self._quantifier.startswith('{') and self._quantifier.endswith('}'):
             # implement {1,10}
             start, end = map(int,
                              self._quantifier.replace('{', '').replace('}', '').split(','))
-            if not (start < quantity < end):
+            if not (start <= quantity <= end):
                 return False
         else:
             try:
@@ -50,7 +50,6 @@ class CoverageRuleBlock(utils.BaseObj):
     def __init__(self, slot_name, quantifier):
         self.slot_name = slot_name
         self.quantifier = quantifier
-    # contain a slot_name and an quantifier pattern
 
     def cover(self, slot_name, slot_qte):
         return (
@@ -84,12 +83,11 @@ class CoverageRule(utils.BaseObj):
             for slot_name, quantifier in rule_blocks)
         )
 
-    def cover(self, slot_sequence):
-        if not slot_sequence:
+    def cover(self, slot_occurences):
+        if not slot_occurences:
             True
 
         # TODO fix: check that every pattern as been consumed
-
         # for all elm of sequence
         return all(
             # at least one coverage block match the elm
@@ -97,7 +95,7 @@ class CoverageRule(utils.BaseObj):
                 rule_block.cover(slot_name, slot_qte)
                 for rule_block in self.rule_blocks
             )
-            for slot_name, slot_qte in slot_sequence
+            for slot_name, slot_qte in slot_occurences
         )
 
     def __str__(self):
@@ -111,7 +109,6 @@ class CoverageIntentSpec(utils.BaseObj):
 
     def __init__(self, intent_name, rules):
         self.name = intent_name
-        # list(tuple(slot_name, qte_pattern))
         self.rules = rules
 
     @classmethod
@@ -132,13 +129,10 @@ class CoverageIntentSpec(utils.BaseObj):
         return covered_slot_seq
 
     def uncovered_slots_sequence(self, slots_sequences):
-        return self.covered_slots_sequence(
-            slots_sequences
-        ).difference(
-            [tuple(seq_case) for seq_case in slots_sequences]
-        )
+        return set(tuple(seq_case) for seq_case in slots_sequences).difference(
+            self.covered_slots_sequence(slots_sequences))
 
-    def check(self, dataset_intent, assistant_intent, action_spec_filepath):
+    def check(self, dataset_intent, action_spec_filepath):
         report_msgs = set()
         # Check full coverage
         uncovered_seq = self.uncovered_slots_sequence(dataset_intent.slots_sequences)
@@ -146,7 +140,9 @@ class CoverageIntentSpec(utils.BaseObj):
             report_msgs.add(message.CoverageSlotSeq(
                 spec_filepath=action_spec_filepath,
                 intent_name=self.name,
-                slots_sequences='[%s]' % ','.join(slot_seq)
+                slots_sequences='[%s]' % ', '.join(
+                    "%dx %s" % (qte, sn) for sn, qte in slot_seq
+                )
             ))
         return report_msgs
 
@@ -189,13 +185,21 @@ class CoverageSpec(utils.BaseObj):
         )
 
     def check_slot_consistancy(self, assistant_intent):
-        assistant_intent_slot_names, assistant_intent_slot_type = zip(*[
-            (slot.get('name'), slot.get('entityId'))
-            for slot in assistant_intent.slots
-        ])
-
         report_msgs = set()
+
+        if not assistant_intent.slots:
+            assistant_intent_slot_names, assistant_intent_slot_type = [], []
+        else:
+            assistant_intent_slot_names, assistant_intent_slot_type = zip(*[
+                (slot.get('name'), slot.get('entityId'))
+                for slot in assistant_intent.slots
+            ])
+
         for intent_name, intent_slot_config in self.intents.items():
+            if intent_name not in assistant_intent.name:
+                continue
+            if not intent_slot_config:
+                continue
             for rule in intent_slot_config.rules:
                 for rule_block in rule.rule_blocks:
                     slot_name = rule_block.slot_name
@@ -232,21 +236,39 @@ class CoverageSpec(utils.BaseObj):
                         action_intent_name
                     )
                     if dataset_intent:
-                        assistant_intent = assistant.intents[action_intent_name]
-                        report_msgs.update(slot_spec.check(
+                        intent_messages = set()
+                        intent_messages.update(slot_spec.check(
                             dataset_intent=dataset_intent,
-                            assistant_intent=assistant_intent,
                             action_spec_filepath=self.action_spec.rel_filepath
                         ))
-                        report_msgs.update(
-                            self.check_slot_consistancy(assistant_intent)
+                        intent_messages.update(
+                            self.check_slot_consistancy(
+                                assistant.intents[action_intent_name]
+                            )
                         )
+                        if not intent_messages:
+                            intent_messages.add(
+                                message.CorrectlyLinked(
+                                    spec_filepath=self.action_spec.rel_filepath,
+                                    action_dir=self.action_spec.action_dir,
+                                    intent_name=action_intent_name
+                                )
+                            )
+                        report_msgs.update(intent_messages)
                     else:
                         # incoherence between dataset.json and assistant.json !
                         report_msgs.add(message.IncoherentAssistantDatasetIntent(
-                            spec_filepath=self.action_spec.filepath,
+                            spec_filepath=self.action_spec.rel_filepath,
 
                         ))
+                else:
+                    report_msgs.add(
+                        message.GenericCoveredIntent(
+                            spec_filepath=self.action_spec.rel_filepath,
+                            action_dir=self.action_spec.action_dir.name,
+                            intent_name=action_intent_name
+                        )
+                    )
                 intents_coverage[action_intent_name].append(self.action_spec.name)
             else:
                 report_msgs.add(message.IntentNotInAssistant(
@@ -273,6 +295,7 @@ class ActionSpec(utils.BaseObj):
         "supported_snips_versions",
         "version",
         "coverage",
+        "_coverage_dic",
         "slots",
         "udpated_at"
     ]
@@ -321,6 +344,7 @@ class ActionSpec(utils.BaseObj):
             attr: action_spec_dic.get(attr)
             for attr in cls.ATTRS
         }
+        kwargs["_coverage_dic"] = kwargs["coverage"]
         kwargs["coverage"] = CoverageSpec.load_from_spec(kwargs["coverage"])
 
         action_spec = ActionSpec(
@@ -357,7 +381,7 @@ class ActionSpec(utils.BaseObj):
         )
         if not self.have_spec:
             report_msgs.add(message.NoSpec(
-                action_dir=self.action_dir
+                action_dir=self.action_dir.name
             ))
             return (report_msgs, {})
 

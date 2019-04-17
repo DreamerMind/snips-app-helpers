@@ -11,7 +11,8 @@ slots:
 
 
 coverage:
-    "mathsQuestion":
+    getCurrentTime:
+    mathsQuestion:
        [
            # unordered slot qte
             [ ["function", "+"], ["number", "+"] ],

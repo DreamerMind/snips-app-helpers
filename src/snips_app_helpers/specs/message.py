@@ -77,6 +77,7 @@ class Message(utils.BaseObj):
 class System(Message):
     pass
 
+
 class Info(Message):
     pass
 
@@ -131,6 +132,18 @@ class IntentNotInAssistant(Warning):
             message_list,
             helper_info="This should not be a problem except that it consume "
             "resource with useless purpose"
+        )
+
+class GenericCoveredIntent(Warning):
+
+    STATIC_MSG = 'Intents do not seem to be covered with slot pattern by action code'
+
+    @classmethod
+    def print_list(cls, message_list):
+        return cls._print_list_helper(
+            "@ {spec_filepath} applied to {action_dir} intent {intent_name}",
+            message_list,
+            helper_info="This limit the possible analysis.",
         )
 
 

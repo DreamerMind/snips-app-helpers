@@ -5,14 +5,34 @@ version: "0.1.1"
 supported_snips_version: ["0.62.1"]
 udpated_at: "2019-03-26"
 
+slots:
+   amount: "snips/number"
+   percent: "custom"
+   song_name: "entity"
+   artist_name: "entity"
+
 
 coverage:
     MySuperFakeIntent:
     getCurrentTime:
     volumeConverter:
+       [
+           # unordered slot qte
+            [ ["amount", "+"]],
+       ]
     shiftUp:
+       [
+           # unordered slot qte
+            [ ["percent", "?"], ["house_room", 1]],
+       ]
     addSong:
+       [
+            [ ["song_name", "{1,2}"]], # false since not song_name slot in examples
+       ]
     playArtist:
+       [
+            [ ["artist_name", "{1,2}"]],
+       ]
     playAlbum:
     playSong:
     volumeDown:

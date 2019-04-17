@@ -32,7 +32,8 @@ class AssistantSpec(utils.BaseObj):
             action_report_msgs, action_intents_coverage = action_spec.check(
                 assistant=self.assistant
             )
-            intents_coverage.update(action_intents_coverage)
+            for cov_intent_name in action_intents_coverage:
+                intents_coverage[cov_intent_name].append(action_spec.name)
             report_msgs.update(action_report_msgs)
 
         for intent_name, action_names in intents_coverage.items():

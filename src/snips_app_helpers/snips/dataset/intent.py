@@ -146,11 +146,18 @@ class Intent(utils.BaseObj):
 
     @property
     def slots_sequences(self):
-        return set([
-            tuple((k, v) for k, v in Counter(sc.slot_name for sc in
-                                             utterance.slot_chunks).items())
-            for utterance in self.utterances
-        ])
+        tups = []
+        for utterance in self.utterances:
+            sequence = [
+                (k, v)
+                for k, v in Counter(
+                    sc.slot_name
+                    for sc in utterance.slot_chunks
+                ).items()
+            ]
+            if sequence:
+                tups.append(tuple(sequence))
+        return set(tups)
 
     def _complete_slot_name_mapping(self):
         for utterance in self.utterances:
@@ -203,7 +210,6 @@ class IntentUtterance(utils.BaseObj):
     @property
     def tmpl(self):
         return ''.join(str(c) for c in self.chunks)
-
 
     @property
     def slot_chunks(self):

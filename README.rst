@@ -23,14 +23,9 @@ Snips App Helpers
     :alt: Supported versions
     :target: https://pypi.org/project/snips-app-helpers
 
-.. image:: https://img.shields.io/pypi/implementation/snips-app-helpers.svg
-    :alt: Supported implementations
-    :target: https://pypi.org/project/snips-app-helpers
-
 .. image:: https://img.shields.io/github/license/dreamermind/snips-app-helpers.svg
    :target: https://github.com/dreamermind/snips-app-helpers/blob/master/LICENSE
    :alt: License
-
 
 
 

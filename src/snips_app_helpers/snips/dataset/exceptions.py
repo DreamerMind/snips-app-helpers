@@ -9,7 +9,6 @@ class DatasetFormatError(SnipsNLUError):
     format"""
 
 
-
 class EntityFormatError(DatasetFormatError):
     """Raised when attempting to create a Snips NLU entity using a wrong
     format"""
