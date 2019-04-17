@@ -4,7 +4,6 @@ from io import IOBase
 from collections import Counter
 
 import yaml
-from future.utils import with_metaclass
 
 from .constants import DATA, ENTITY, SLOT_NAME, TEXT, UTTERANCES
 from .exceptions import IntentFormatError
@@ -263,7 +262,7 @@ class IntentUtterance(utils.BaseObj):
         )
 
 
-class Chunk(with_metaclass(ABCMeta, object)):
+class Chunk(metaclass=ABCMeta):
     def __init__(self, text):
         self.text = text
 
