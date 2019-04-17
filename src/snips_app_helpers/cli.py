@@ -34,7 +34,10 @@ def spec():
 
 
 @spec.command()
-@click.option('-aj', '--assistant_json', required=True, type=pathlib.Path)
+@click.option('-aj',
+              '--assistant_json',
+              default=pathlib.Path('/usr/share/snips/assistant/assistant.json'),
+              type=pathlib.Path)
 @click.option('-ad',
               '--app_dir',
               default=pathlib.Path('/var/lib/snips/skills'),
