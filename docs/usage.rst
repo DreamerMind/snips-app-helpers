@@ -7,7 +7,7 @@ Usage
 .. _slot: https://snips-nlu.readthedocs.io/en/latest/data_model.html#slot
 .. _console: https://console.snips.ai/
 
-In Spec we trust
+In Spec We Trust
 ================
 
 One of the problem while devolopping a voice assistant using Snips is that we otfen
@@ -127,6 +127,19 @@ A typical report of the CLI looks like this:
    Missing spec for following actions:
            - Snips.Smart_Lights_-_Hue
              ...
+
+Guess The Spec
+================
+
+As a first step if you already have a big assistant and do not want to add
+all specs manually, a system allow to guess what should be the good spec for
+each action code based on what intent and slots names are detected in the action
+code to use it you can directly use the following cli
+
+::
+
+   snips-app spec auto-guess --spec_store ... --assistant_dir ... --actions_dir ...
+
 
 The Spec Middleware
 ===================
