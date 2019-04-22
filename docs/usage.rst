@@ -63,10 +63,15 @@ based on the quantity of each slot expected in the intent by the action code
 handler.
 And the following quantifiers follow as mutch as possible the regexp one.
 Here is the list of what is implemented now:
+
 - "+" between 1 and n
+
 - "*" between 0 and n
+
 - "?" between 0 and 1
+
 - "{1,10}" between 1 and 10
+
 - 3 always 3
 
 If the action code is not yours you obviously do not want to add the spec file

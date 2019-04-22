@@ -21,8 +21,9 @@ class Intent(utils.BaseObj):
         slot_mapping (dict): mapping between slot names and entities
     """
 
-    def __init__(self, intent_name, utterances, slot_mapping=None, version=None,
-                 id=None):
+    def __init__(
+        self, intent_name, utterances, slot_mapping=None, version=None, id=None
+    ):
         if slot_mapping is None:
             slot_mapping = dict()
         self.name = intent_name
@@ -118,11 +119,15 @@ class Intent(utils.BaseObj):
         slot_mapping = dict()
         for slot in yaml_dict.get("slots", []):
             slot_mapping[slot["name"]] = slot["entity"]
-        utterances = [IntentUtterance.parse(u.strip())
-                      for u in yaml_dict["utterances"] if u.strip()]
+        utterances = [
+            IntentUtterance.parse(u.strip())
+            for u in yaml_dict["utterances"]
+            if u.strip()
+        ]
         if not utterances:
             raise IntentFormatError(
-                "Intent must contain at least one utterance")
+                "Intent must contain at least one utterance"
+            )
         return cls(intent_name, utterances, slot_mapping)
 
     @classmethod
@@ -130,33 +135,32 @@ class Intent(utils.BaseObj):
         slot_mapping = dict()
         utterances = list()
         for utterance in dic.get("utterances", []):
-            data = utterance.get('data', [])
+            data = utterance.get("data", [])
             for chunk in data:
-                if chunk.get('slot_name'):
+                if chunk.get("slot_name"):
                     slot_mapping[chunk["slot_name"]] = chunk["entity"]
             utterances.append(IntentUtterance.from_dataset_dic(data))
         return cls(
             name,
             utterances,
             slot_mapping,
-            version=dic.get('version'),
-            id=dic.get('id')
+            version=dic.get("version"),
+            id=dic.get("id"),
         )
 
     @property
-    def slots_sequences(self):
-        tups = []
+    def slots_utterances(self):
+        utterances = []
         for utterance in self.utterances:
-            sequence = [
+            utterance = [
                 (k, v)
                 for k, v in Counter(
-                    sc.slot_name
-                    for sc in utterance.slot_chunks
+                    sc.slot_name for sc in utterance.slot_chunks
                 ).items()
             ]
-            if sequence:
-                tups.append(tuple(sequence))
-        return set(tups)
+            if utterance:
+                utterances.append(frozenset(utterance))
+        return set(utterances)
 
     def _complete_slot_name_mapping(self):
         for utterance in self.utterances:
@@ -171,7 +175,8 @@ class Intent(utils.BaseObj):
                 if chunk.entity:
                     continue
                 chunk.entity = self.slot_mapping.get(
-                    chunk.slot_name, chunk.slot_name)
+                    chunk.slot_name, chunk.slot_name
+                )
         return self
 
     @property
@@ -186,8 +191,12 @@ class Intent(utils.BaseObj):
 
     @property
     def entities_names(self):
-        return set(chunk.entity for u in self.utterances
-                   for chunk in u.chunks if isinstance(chunk, SlotChunk))
+        return set(
+            chunk.entity
+            for u in self.utterances
+            for chunk in u.chunks
+            if isinstance(chunk, SlotChunk)
+        )
 
     def __str__(self):
         return "<%s name=%s nb_utterances=%s version=%s>" % (
@@ -208,7 +217,7 @@ class IntentUtterance(utils.BaseObj):
 
     @property
     def tmpl(self):
-        return ''.join(str(c) for c in self.chunks)
+        return "".join(str(c) for c in self.chunks)
 
     @property
     def slot_chunks(self):
@@ -245,21 +254,18 @@ class IntentUtterance(utils.BaseObj):
     def from_dataset_dic(cls, dic_list):
         chunks = []
         for dic in dic_list:
-            if dic.get('slot_name'):
-                chunks.append(SlotChunk(
-                    dic.get('slot_name'),
-                    dic.get('entity'),
-                    dic.get('text')
-                ))
+            if dic.get("slot_name"):
+                chunks.append(
+                    SlotChunk(
+                        dic.get("slot_name"), dic.get("entity"), dic.get("text")
+                    )
+                )
             else:
-                chunks.append(TextChunk(dic.get('text')))
+                chunks.append(TextChunk(dic.get("text")))
         return cls(chunks)
 
     def __str__(self):
-        return "<%s '%s'>" % (
-            self.__class__.__name__,
-            self.tmpl
-        )
+        return "<%s '%s'>" % (self.__class__.__name__, self.tmpl)
 
 
 class Chunk(metaclass=ABCMeta):
@@ -279,22 +285,16 @@ class SlotChunk(utils.BaseObj, Chunk):
 
     @property
     def json(self):
-        return {
-            TEXT: self.text,
-            SLOT_NAME: self.slot_name,
-            ENTITY: self.entity,
-        }
+        return {TEXT: self.text, SLOT_NAME: self.slot_name, ENTITY: self.entity}
 
     def __str__(self):
-        return '[%s](%s)' % (self.slot_name, self.text)
+        return "[%s](%s)" % (self.slot_name, self.text)
 
 
 class TextChunk(utils.BaseObj, Chunk):
     @property
     def json(self):
-        return {
-            TEXT: self.text
-        }
+        return {TEXT: self.text}
 
     def __str__(self):
         return self.text
@@ -330,8 +330,9 @@ class SM(object):
     def add_tagged(self, text):
         """Adds text to the last slot"""
         if not self.chunks:
-            raise AssertionError("Cannot add tagged text because chunks list "
-                                 "is empty")
+            raise AssertionError(
+                "Cannot add tagged text because chunks list " "is empty"
+            )
         self.chunks[-1].text = text
 
     def find(self, s):
@@ -367,7 +368,7 @@ class SM(object):
 
 
 def capture_text(state):
-    next_pos = state.find('[')
+    next_pos = state.find("[")
     sub = state[:] if next_pos < 0 else state[:next_pos]
     if sub:
         state.add_text(sub)
@@ -377,8 +378,8 @@ def capture_text(state):
 
 
 def capture_slot(state):
-    next_colon_pos = state.find(':')
-    next_square_bracket_pos = state.find(']')
+    next_colon_pos = state.find(":")
+    next_square_bracket_pos = state.find("]")
     if next_square_bracket_pos < 0:
         raise IntentFormatError("Missing ending ']' in annotated utterance")
     if next_colon_pos < 0 or next_square_bracket_pos < next_colon_pos:
@@ -391,7 +392,7 @@ def capture_slot(state):
         entity = state[:next_square_bracket_pos]
         state.move(next_square_bracket_pos)
         state.add_slot(slot_name, entity)
-    if state.peek() == '(':
+    if state.peek() == "(":
         state.read()
         capture_tagged(state)
     else:
@@ -399,7 +400,7 @@ def capture_slot(state):
 
 
 def capture_tagged(state):
-    next_pos = state.find(')')
+    next_pos = state.find(")")
     if next_pos < 1:
         raise IntentFormatError("Missing ending ')' in annotated utterance")
     else:
