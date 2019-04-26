@@ -35,10 +35,21 @@ class AssistantIntent(utils.BaseObj):
 
 class Assistant(utils.BaseObj):
 
-    """ Assistant Contract Specification """
+    """ Assistant Specification """
 
     def __init__(
-        self, name, language, versions, intents, created_at, original_path
+        self,
+        name,
+        language,
+        versions,
+        intents,
+        created_at,
+        original_path,
+        platform,
+        asr,
+        hotword,
+        analytics_enabled,
+        heartbeat_enabled,
     ):
         self.name = name
         self.language = language
@@ -47,6 +58,11 @@ class Assistant(utils.BaseObj):
         self.created_at = created_at
         self._original_path = original_path
         self._dataset = None
+        self.platform = platform
+        self.asr = asr
+        self.hotword = hotword
+        self.analytics_enabled = analytics_enabled
+        self.heartbeat_enabled = heartbeat_enabled
 
     @property
     def intents(self):
@@ -76,6 +92,11 @@ class Assistant(utils.BaseObj):
                 for _ in assistant_spec.get("intents", [])
             ],
             original_path=assistant_json,
+            platform=assistant_spec["platform"]["type"],
+            asr=assistant_spec["asr"]["type"],
+            hotword=assistant_spec["hotword"],
+            analytics_enabled=assistant_spec["analyticsEnabled"],
+            heartbeat_enabled=assistant_spec["heartbeatEnabled"],
         )
 
     @property

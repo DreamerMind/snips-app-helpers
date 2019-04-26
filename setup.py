@@ -24,7 +24,7 @@ def read(*names, **kwargs):
 
 setup(
     name="snips-app-helpers",
-    version="0.0.9",
+    version="0.0.10",
     license="MIT license",
     description="Handful of cli and other tools to develop with confidence Snips services",
     long_description="%s\n%s"

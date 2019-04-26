@@ -18,14 +18,14 @@ import yaml
 import paho.mqtt.client as mqtt
 
 
-DEFAULT_TOML_PATH = '/etc/snips.toml'
+DEFAULT_TOML_PATH = "/etc/snips.toml"
 ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
-SLOTS = 'slots'
-SLOT_NAME = 'slotName'
+SLOTS = "slots"
+SLOT_NAME = "slotName"
 INTENT_NAME = "intentName"
 HERMES_INTENT = "hermes/intent/%s"
-TO = 'to'
+TO = "to"
 INTENT = "intent"
 
 
@@ -35,7 +35,9 @@ formatter = logging.Formatter(
     "%(asctime)s - %(name)s - %(filename)s:%(lineno)d %(levelname)-10s %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-handler = logging.handlers.RotatingFileHandler('./middleware.log', encoding='utf-8')
+handler = logging.handlers.RotatingFileHandler(
+    "./middleware.log", encoding="utf-8"
+)
 handler.setLevel(logging.DEBUG)
 handler.setFormatter(formatter)
 log.addHandler(handler)
@@ -47,7 +49,8 @@ class SnipsConfigParser(ConfigParser):
         return {
             section: {
                 option_name: option
-                for option_name, option in self.items(section) if option.strip()
+                for option_name, option in self.items(section)
+                if option.strip()
             }
             for section in self.sections()
         }
@@ -55,8 +58,10 @@ class SnipsConfigParser(ConfigParser):
 
 def read_configuration_file(configuration_file):
     try:
-        with pathlib.Path(configuration_file).open(encoding=ENCODING_FORMAT) as f:
-            conf_parser = SnipsConfigParser(delimiters=('='))
+        with pathlib.Path(configuration_file).open(
+            encoding=ENCODING_FORMAT
+        ) as f:
+            conf_parser = SnipsConfigParser(delimiters=("="))
             conf_parser.optionxform = str
             conf_parser.readfp(f)
             return conf_parser.to_dict()
@@ -65,7 +70,7 @@ def read_configuration_file(configuration_file):
 
 
 def load_route_table(path):
-    with pathlib.Path(path).open('r') as fh:
+    with pathlib.Path(path).open("r") as fh:
         return yaml.load(fh, Loader=yaml.FullLoader)
 
 
@@ -74,21 +79,24 @@ class AssistantMiddleware(object):
 
     The rerouting is based on you config.ini
     """
+
     def __init__(self, debug=False):
         """Initialize the app."""
-        self.config = read_configuration_file(CONFIG_INI)['general']
-        self.routing_table = load_route_table(self.config.get('routing_table'))
-        self.debug = self.config.get('debug', False)
+        self.config = read_configuration_file(CONFIG_INI)["general"]
+        self.routing_table = load_route_table(self.config.get("routing_table"))
+        self.debug = self.config.get("debug", False)
         try:
-            mqtt_host_port = toml.load(DEFAULT_TOML_PATH)['snips-common']['mqtt']
-            mqtt_host, mqtt_port = mqtt_host_port.split(':')
+            mqtt_host_port = toml.load(DEFAULT_TOML_PATH)["snips-common"][
+                "mqtt"
+            ]
+            mqtt_host, mqtt_port = mqtt_host_port.split(":")
             mqtt_port = int(mqtt_port)
         except (KeyError, ValueError):
             # If the mqtt key doesn't exist or doesn't have the correct format,
             # use the default values.
-            mqtt_host = self.config.get('mqtt_host', 'localhost')
-            mqtt_port = int(self.config.get('mqtt_port', 1883))
-        mqtt_timeout = int(self.config.get('mqtt_timeout', 5))
+            mqtt_host = self.config.get("mqtt_host", "localhost")
+            mqtt_port = int(self.config.get("mqtt_port", 1883))
+        mqtt_timeout = int(self.config.get("mqtt_timeout", 5))
 
         self.client = mqtt.Client("snips-middleware")
         self.client.on_connect = self._subscribe_reroute
@@ -105,9 +113,12 @@ class AssistantMiddleware(object):
             self.client.subscribe(HERMES_INTENT % "#", 1)
         for intent_name, intent_dic in self.routing_table.items():
             new_intent_name = intent_dic.get(TO)
-            log.info('hook re route intent : %s => %s', intent_name, new_intent_name)
+            log.info(
+                "hook re route intent : %s => %s", intent_name, new_intent_name
+            )
             client.message_callback_add(
-                HERMES_INTENT % intent_name, self.emit_rerouted_intent)
+                HERMES_INTENT % intent_name, self.emit_rerouted_intent
+            )
         log.info("started sucessfully")
 
     def emit_rerouted_intent_debug(self, client, userdata, message):
@@ -129,15 +140,18 @@ class AssistantMiddleware(object):
                 new_slot_name = intent_routing_info[SLOTS][slot_name]
                 new_payload[SLOTS][new_slot_name] = slot_content
                 del new_payload[SLOTS][slot_name]
-        log.info("Intent %s detected with slots %s",
-                 name,
-                 [s[SLOT_NAME] for s in payload[SLOTS]])
-        log.info("Rerouted to Intent %s detected with slots %s",
-                 rerouted_intent_name,
-                 [s[SLOT_NAME] for s in new_payload[SLOTS]])
+        log.info(
+            "Intent %s detected with slots %s",
+            name,
+            [s[SLOT_NAME] for s in payload[SLOTS]],
+        )
+        log.info(
+            "Rerouted to Intent %s detected with slots %s",
+            rerouted_intent_name,
+            [s[SLOT_NAME] for s in new_payload[SLOTS]],
+        )
         client.publish(
-            'hermes/intent/%s' % rerouted_intent_name,
-            json.dumps(new_payload)
+            "hermes/intent/%s" % rerouted_intent_name, json.dumps(new_payload)
         )
 
 
