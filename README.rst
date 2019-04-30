@@ -28,6 +28,7 @@ Snips App Helpers
    :alt: License
 
 
+`WARNING ! can be used by internal snipsters only for now :( due to dataset.json shipping limitation`
 
 ``This is not an official Snips product !``
 
