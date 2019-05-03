@@ -1,5 +1,35 @@
 from decimal import Decimal
 
+IGNORE_FOLDERS = [
+    "dist",
+    "out-tsc",
+    "pids",
+    "lib-cov",
+    "coverage",
+    "logs",
+    "log",
+    "node_modules",
+    "jspm_packages",
+    "Thumbs.db",
+    "__pycache__",
+    "venv",
+    "build",
+    "downloads",
+    "eggs",
+    "lib",
+    "lib64",
+    "parts",
+    "sdist",
+    "var",
+    "wheels",
+    "pip-wheel-metadata",
+    "share",
+    "doc",
+    "env",
+    "env.bak",
+    "venv.bak",
+]
+
 
 class BaseObj(object):
     def __repr__(self):
@@ -9,16 +39,18 @@ class BaseObj(object):
         return self.__str__()
 
 
-def iter_file_in_tree(base_dir):
+def iter_file_in_tree(base_dir, ignore_folders=None, skip_dot_folders=True):
     for path in base_dir.iterdir():
         if path.is_dir():
-            yield from iter_file_in_tree(path)
+            if path.name.startswith(".") or path.name in ignore_folders:
+                continue
+            yield from iter_file_in_tree(path, ignore_folders)
         if path.is_file():
             yield path
 
 
-def iter_lines_in_tree(base_dir):
-    for filepath in iter_file_in_tree(base_dir):
+def iter_lines_in_tree(base_dir, ignore_folders=None):
+    for filepath in iter_file_in_tree(base_dir, ignore_folders):
         with filepath.open("rb") as fh:
             for line_idx, line in enumerate(fh):
                 yield filepath, line_idx, str(line)

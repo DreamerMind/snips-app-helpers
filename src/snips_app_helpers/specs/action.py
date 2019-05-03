@@ -507,7 +507,9 @@ class ActionSpec(utils.BaseObj):
         detected_intents = defaultdict(list)
         detected_slots = defaultdict(list)
 
-        for filepath, line_idx, line in utils.iter_lines_in_tree(action_dir):
+        for filepath, line_idx, line in utils.iter_lines_in_tree(
+            action_dir, ignore_folders=utils.IGNORE_FOLDERS
+        ):
             for candi_intent_name in possible_intents.difference(
                 detected_intents
             ):
